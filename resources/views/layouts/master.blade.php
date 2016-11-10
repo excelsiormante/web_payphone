@@ -5,9 +5,9 @@
 
          <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
          <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-          <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
-         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"> </script>
-         <script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"> </script>
+          <script type="text/javascript" src="{{ asset('js/lib/jquery.js') }}"></script>
+         <script type="text/javascript" src="{{ asset('js/lib/bootstrap.min.js') }}"> </script>
+         <script type="text/javascript" src="{{ asset('js/lib/jquery-ui.min.js') }}"> </script>
 
         <style>
             html, body {

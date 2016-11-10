@@ -66,5 +66,14 @@ class PlansController extends Controller
     public function subscribe(){
         $plan_id       = Input::get('plan_id');
         $subscriber_id = Session::get('subscriber_id');
+        try {
+            $query = "SELECT pgc_halo.fn_subscribe_to_plan(?,?) as is_subscribe;";
+            $values = array($subscriber_id, $plan_id);
+            $result = DB::select($query, $values);
+            $subscription = $result[0];
+        } catch ( Exception $exc ) {
+            
+        }
+        return json_encode($subscription);
     }
 }

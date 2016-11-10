@@ -98,10 +98,10 @@
     <!-- @include('modals.confirm_plan'); -->
 
     <!--scripts loaded here from cdn for performance -->
-    <script src="{{ asset('js/jquery.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+    <script src="{{ asset('js/lib/jquery.js') }}"></script>
+    <script src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/lib/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('js/lib/wow.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
 
