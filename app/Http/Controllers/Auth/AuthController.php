@@ -51,7 +51,7 @@ class AuthController extends Controller
             // Authentication passed...
             $user = Auth::user();
 
-            Session::put('subsciber_id', $user->id);
+            Session::put('subscriber_id', $user->id);
             Session::put('name', $user->name);
             Session::put('email', $user->email_address);
 
@@ -68,7 +68,7 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-         return Validator::make($data, [
+        return Validator::make($data, [
             'name'          => 'required|max:255',
             'email_address' => 'required|email|max:255|unique:TBL_SUBSCRIBERS',
             'password'      => 'required|confirmed|min:6'

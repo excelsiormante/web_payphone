@@ -33,7 +33,7 @@ function subscribePlan(){
             
           },
           success:function(response){
-              alert(response);
+              
           },
           error:function(){
             

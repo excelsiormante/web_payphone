@@ -102,8 +102,9 @@
     <script src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/lib/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/lib/wow.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/mywallet.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
+    <script src="{{ asset('js/myplan.js') }}"></script>
 
         <!-- Custom Theme JavaScript -->
     <script type="text/javascript">
@@ -124,43 +125,11 @@
                 $("#tab_call").delay(400).fadeIn('slow');
             });
 
-            $("#selectplan").click(function(){
-                $(".section").fadeOut('slow');
-                $("#tab_selectplan").delay(400).fadeIn('slow');
-            });
-
             $("#dialer").click(function(){
                 $(".section").fadeOut('slow');
                 $("#tab_dialer").delay(400).fadeIn('slow');
             });
       
-
-            $("#ewallet").click(function(){
-                $(".section").fadeOut('slow');
-                $("#tab_ewallet").delay(400).fadeIn('slow');
-                
-                $.ajax({
-                      type: 'GET',
-                      url: 'api/getwallet',
-                      beforeSend:function(){
-                        // this is where we append a loading image
-                        $('#div_balance').html('<div class="loading"><img src="{{asset("images/loading.gif")}}" alt="Loading..." /></div>');
-                      },
-                      success:function(response){
-                        $('#div_balance').empty();
-                        var data = jQuery.parseJSON(response);
-                        $('#div_balance').append('<h1 class="text-left"><strong>$'+data['balance']+'</strong></h1>');
-                        $('#div_balance').append('<p class="text-left">As of today 7:14pm</p>');
-                      },
-                      error:function(){
-                          
-                      }
-                });
-            });
-
-
-
-
             //dialer
             $('.num').click(function () {
                 var num = $(this);
