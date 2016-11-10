@@ -20,7 +20,7 @@ function confirmProduct(plan_id){
     });
 }
 
-function confirmPlan(){
+function subscribePlan(){
     var plan_id = $('#plan_id').val();
     $.ajax({
           type: 'GET',
