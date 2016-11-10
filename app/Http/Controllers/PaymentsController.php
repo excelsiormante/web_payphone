@@ -10,7 +10,7 @@ use Srmklive\PayPal\Services\ExpressCheckout;
 use Srmklive\PayPal\Services\AdaptivePayments;
 use redirect, response;
 use App\Libraries\Paymaya;
-use DB;
+use DB, Session;
 
 class PaymentsController extends Controller
 {
@@ -26,7 +26,7 @@ class PaymentsController extends Controller
         $provider = new ExpressCheckout; 
 
         $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
-        $subscriber_id = 1;
+        $subscriber_id = Session::get('subsciber_id');
         $add_trans_values = array($subscriber_id, $amount, "PAYPAL");
         $add_trans_result = DB::select($add_trans_query, $add_trans_values);
         $transaction_id = $add_trans_result[0]->trans_id;
@@ -84,7 +84,7 @@ class PaymentsController extends Controller
             $return = redirect('/');
         } else {
             $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
-            $upd_trans_values = array($transaction_id, config('constants.RESULT_ERROR'), $response['CORRELATIONID'], $response['L_ERRORCODE0']);
+            $upd_trans_values = array($trans_data['invoice_id'], config('constants.RESULT_ERROR'), $response['CORRELATIONID'], $response['L_ERRORCODE0']);
             DB::select($upd_trans_query, $upd_trans_values);
             $return = redirect('/');
         }

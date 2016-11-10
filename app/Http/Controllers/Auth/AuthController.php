@@ -8,7 +8,6 @@ use Auth, Input, Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use DB, Session;
 
 class AuthController extends Controller
 {
@@ -50,10 +49,9 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email_address' => $email, 'password' => $password])) {
             // Authentication passed...
-
             $user = Auth::user();
 
-            Session::put('id', $user->id);
+            Session::put('subsciber_id', $user->id);
             Session::put('name', $user->name);
             Session::put('email', $user->email_address);
 
@@ -71,17 +69,9 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
          return Validator::make($data, [
-            'firstname'  => 'required|max:255',
-            'middlename' => 'required|max:255',
-            'lastname'   => 'required|max:255',
-            'email'      => 'required|email|max:255',
-            'subs_type'  => 'required|max:255',
-            'bday'       => 'required|max:255|date',
-            'address'    => 'required|max:255',
-            'city'       => 'required|max:255',
-            'state'      => 'required|max:255',
-            'postal'     => 'required|max:255',
-            'country'    => 'required|max:255'
+            'name'          => 'required|max:255',
+            'email_address' => 'required|email|max:255|unique:TBL_SUBSCRIBERS',
+            'password'      => 'required|confirmed|min:6'
         ]);
     }
 
@@ -93,24 +83,10 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        $query = "SELECT pgc_halo.fn_register_subscriber(?,?,?,?,?,?,?,?,?,?,?,?);";
-        $bindings = array(
-                        $data['firstname'], 
-                        $data['middlename'], 
-                        $data['lastname'], 
-                        $data['email'], 
-                        $data['subs_type'], 
-                        $data['bday'], 
-                        $data['_token'], 
-                        $data['address'], 
-                        $data['city'], 
-                        $data['state'], 
-                        $data['postal'], 
-                        $data['country']);
-        
-        DB::select($query, $bindings);
-        
-        // EMAIL
-        Session::put('with_reg', true);
+        return User::create([
+            'name'          => $data['name'],
+            'email_address' => $data['email_address'],
+            'password'      => bcrypt($data['password'])
+        ]);
     }
 }

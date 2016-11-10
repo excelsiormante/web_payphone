@@ -1,3 +1,4 @@
+
 <div class="container" id="subscribe-ajax">
     <h2 class="text-center text-primary">Subscribe</h2>
     <div id="div_products"></div>

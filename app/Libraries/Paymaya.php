@@ -1,6 +1,6 @@
 <?php namespace App\Libraries;
 
-use Config, Session;
+use Config;
 
 class Paymaya
 {
@@ -21,9 +21,8 @@ class Paymaya
                 $fields_string[] = $key . '=' . urlencode($value);
             }
         }  */
-        $name = Session::get('name');
 
-        $ip = $_SERVER['REMOTE_ADDR'];
+        
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://pg-sandbox.paymaya.com/checkout/v1/checkouts");
@@ -32,9 +31,15 @@ class Paymaya
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, "{
   \"totalAmount\": {
-    \"currency\": \"USD\",
-    \"value\": \"".$amount."\",
-    \"details\": {}
+    \"currency\": \"PHP\",
+    \"value\": \"6404.90\",
+    \"details\": {
+      \"discount\": \"300.00\",
+      \"serviceCharge\": \"50.00\",
+      \"shippingFee\": \"200.00\",
+      \"tax\": \"691.60\",
+      \"subtotal\": \"5763.30\"
+    }
   },
   \"buyer\": {
     \"firstName\": \"Juan\",
@@ -44,9 +49,8 @@ class Paymaya
       \"phone\": \"+63(2)1234567890\",
       \"email\": \"paymayabuyer1@gmail.com\"
     },
-    \"shippingAddress\": {},
-    \"billingAddress\": {},
-    \"ipAddress\": \"".$ip."\"
+    
+    \"ipAddress\": \"125.60.148.241\"
   },
   \"items\": [
     {
@@ -68,12 +72,24 @@ class Paymaya
           \"subtotal\": \"5163.30\"
         }
       }
+    },
+    {
+      \"name\": \"PU Ballerina Flats\",
+      \"code\": \"CVR-096RE2\",
+      \"description\": \"Shoes\",
+      \"quantity\": \"1\",
+      \"amount\": {
+        \"value\": \"600.00\"
+      },
+      \"totalAmount\": {
+        \"value\": \"600.00\"
+      }
     }
   ],
   \"redirectUrl\": {
-    \"success\": \"http://shop.someserver.com/success?id=6319921\",
-    \"failure\": \"http://shop.someserver.com/failure?id=6319921\",
-    \"cancel\": \"http://shop.someserver.com/cancel?id=6319921\"
+    \"success\": \"localhost/webpayphone-app/public/payment/success\",
+    \"failure\": \"localhost/webpayphone-app/public\",
+    \"cancel\": \"localhost/webpayphone-app/public\"
   },
   \"requestReferenceNumber\": \"000141386713\",
   \"metadata\": {}

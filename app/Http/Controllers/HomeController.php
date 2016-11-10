@@ -38,28 +38,8 @@ class HomeController extends Controller
         $i = rand(0, count($bg)-1); // generate random number size of the array
         $selectedBg = "$bg[$i]"; // set variable equal to which random filename was chosen
         
-        $country_query = "SELECT * FROM pgc_halo.fn_get_active_countries()
-                          RESULT (id integer, name varchar);";
-        $countries  = DB::select($country_query);
-        $country_attr = array(
-                            'name' => "country",
-                            'class'=>"form-control"
-                        );
-        $cmb_country = \App\Libraries\Common::generateComboBox($country_attr, $countries);
-        
-        $subs_type_query = "SELECT * FROM pgc_halo.fn_get_active_subscriber_types()
-                          RESULT (id integer, name varchar);";
-        $subs_type  = DB::select($subs_type_query);
-        $substype_attr = array(
-                            'name' => "subs_type",
-                            'class'=>"form-control"
-                        );
-        $cmb_subs_type = \App\Libraries\Common::generateComboBox($substype_attr, $subs_type);
-        
         return view('auth.register')
-        ->with('selectedBg', $selectedBg)
-        ->with('cmb_country', $cmb_country)
-        ->with('cmb_subs_type', $cmb_subs_type);
+        ->with('selectedBg', $selectedBg);
     }
 
     public function showDashboard()

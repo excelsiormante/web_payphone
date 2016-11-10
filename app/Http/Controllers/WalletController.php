@@ -18,7 +18,7 @@ class WalletController extends Controller
     public function getwallet()
     {
         try {
-            $subscriber_id = 1;
+            $subscriber_id = Session::get('subsciber_id');
             $query = "SELECT * FROM pgc_halo.fn_get_wallet_balance(?) AS balance";
             $values = array($subscriber_id);
             $result = DB::select($query,$values);

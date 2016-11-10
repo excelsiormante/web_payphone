@@ -24,7 +24,7 @@ class SocialAuthController extends Controller
 
         auth()->login($user);
 
-        Session::put('id', $user->id);
+        Session::put('subsciber_id', $user->id);
         Session::put('name',$user->name);
         Session::put('email', $user->email);
 

@@ -31,79 +31,30 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">First Name</font></label>
+                    <label class="col-md-4 control-label"><font color="white">Name</font></label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="firstname" value="{{ old('firstname') }}">
+                        <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">Middle Name</font></label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="middlename" value="{{ old('middlename') }}">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">Last Name</font></label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="lastname" value="{{ old('lastname') }}">
-                    </div>
-                </div>
-                
                 <div class="form-group">
                     <label class="col-md-4 control-label"><font color="white">E-Mail Address</font></label>
                     <div class="col-md-6">
                         <input type="email" class="form-control" name="email_address" value="{{ old('email_address') }}">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">Subscription Type</font></label>
+                    <label class="col-md-4 control-label"><font color="white">Password</font></label>
                     <div class="col-md-6">
-                        <?php echo $cmb_subs_type; ?>
+                        <input type="password" class="form-control" name="password">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">Address</font></label>
+                    <label class="col-md-4 control-label"><font color="white">Confirm Password</font></label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="address" value="{{ old('address') }}">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">Birthday</font></label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="bday" value="{{ old('bday') }}">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">City</font></label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="city" value="{{ old('city') }}">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">State</font></label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="state" value="{{ old('state') }}">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">Postal Code</font></label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="postal" value="{{ old('postal') }}">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><font color="white">Country</font></label>
-                    <div class="col-md-6">
-                        <?php echo $cmb_country; ?>
+                        <input type="password" class="form-control" name="password_confirmation">
                     </div>
                 </div>
 

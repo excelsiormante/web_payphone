@@ -54,7 +54,7 @@
         
     </nav>
 
-    @include('modals.confirm')
+    @include('modals.confirm_plan')
     @include('modals.payment')
     @include('modals.paypercall')
 
@@ -95,7 +95,7 @@
 
     </header>
 
-    <!-- @include('modals.confirm'); -->
+    <!-- @include('modals.confirm_plan'); -->
 
     <!--scripts loaded here from cdn for performance -->
     <script src="{{ asset('js/jquery.js') }}"></script>
@@ -103,6 +103,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/plans.js') }}"></script>
 
         <!-- Custom Theme JavaScript -->
     <script type="text/javascript">
@@ -122,41 +123,6 @@
                 $(".section").fadeOut('slow');
                 $("#tab_call").delay(400).fadeIn('slow');
             });
-
-            $("#subscribe").click(function(){
-                $(".section").fadeOut('slow');
-                $("#tab_subscribe").delay(400).fadeIn('slow');
-
-                $.ajax({
-                      type: 'GET',
-                      url: 'api/plans',
-                      beforeSend:function(){
-                        // this is where we append a loading image
-                        $('#div_products').html('<div class="loading"><img src="{{asset("images/loading.gif")}}" alt="Loading..." /></div>');
-                      },
-                      success:function(response){
-                        // successful request; do something with the data
-                        $('#div_products').empty();
-                        var data = jQuery.parseJSON(response);
-                        $.each(data, function(group){
-                            $('#div_products').append('<div class="col-lg-12 col-md-12 text-center">');
-                            $('#div_products').append('<h3>'+group+'</h3>');
-                            $.each(data[group], function(products){
-                                $('#div_products').append('<div');
-                                $('#div_products').append('<div class="media wow fadeInRight">');
-                                $('#div_products').append('<a href="#confirmationModal" class="btn btn-primary" data-toggle="modal">'+data[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+data[group][products]['price']+'</strong></a>');
-                                $('#div_products').append('</div>');
-                            });
-                            $('#div_products').append('</div><hr>');
-                        });
-                      },
-                      error:function(){
-                        // failed request; give feedback to user
-                        $('#subscribe-ajax').html('<p class="error"><strong>Oops!</strong> Try that again in a few moments.</p>');
-                      }
-                });
-            });
-
 
             $("#selectplan").click(function(){
                 $(".section").fadeOut('slow');
