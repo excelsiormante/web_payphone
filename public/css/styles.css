@@ -1,0 +1,84 @@
+ html, body {
+                height: 100%;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                display: table;
+                position: relative;
+                background: url(../images/bg-06.jpg) no-repeat center center scroll;
+                background-attachment: fixed;
+                background-size: cover;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+               
+                }
+
+
+ .panel-transparent {
+                background: none;
+                border: 0px;
+            }
+
+            .panel-transparent .panel-heading{
+                background: rgba(122, 130, 136, .5)!important;
+                border: 0px;
+            }
+
+            .panel-transparent .panel-body{
+                background: rgba(46, 51, 56, .5)!important;
+            }
+
+
+            .top-buffer{
+                margin-top: 8em;
+            }
+
+            .navbar-transparent{
+                background: rgba(46, 51, 56, .5)!important;
+                border: 0px;
+            }
+
+            .footer-opacity{
+                background: rgba(0, 0, 0, 0.5)!important;
+                border: 0px;
+            }
+            .footer-line{
+                white-space: nowrap;
+            }
+
+
+            a.logo{
+                  -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+                  -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+                  -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+                  -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+                  transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+                  display: block;
+                  margin: 10px;
+                  max-width: 180px;
+                  text-decoration: none;
+                  border-radius: 0px;
+                  padding: 0px 0px 0px 0px;
+                }
+
+
+                .text-vertical-center {
+                    display: table-cell;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+
+                .row-transparent
+                {
+                    background: rgba(0, 0, 0, 0.5)!important;
+                    border: 0px;
+                }
+
+
+                #page-wrapper{
+                    margin-left: 251px;
+                }

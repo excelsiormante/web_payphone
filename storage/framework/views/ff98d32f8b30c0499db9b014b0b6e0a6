@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Web Payphone Services</title>
+    <meta name="description" content="This is a free Bootstrap landing page theme created for BootstrapZero. Feature video background and one page design." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Codeply">
+    <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap.min.css')); ?>" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="<?php echo e(asset('css/styles2.css')); ?>" />
+    <link href="<?php echo e(asset('font-awesome/css/font-awesome.min.css')); ?>" rel="stylesheet" type="text/css">
+
+  </head>
+  <body>
+
+    <nav id="topNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#one" id="header"><img src="<?php echo e(asset('images/logo.png')); ?>" class="img-responsive pull-left"><font color="white"> WebPayPhone</font></a>
+            </div>
+            <div class="navbar-collapse collapse" id="bs-navbar">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#call" id="call">Call</a>
+                    </li>
+                    <li>
+                        <a href="#subscribe" id="subscribe">Subscribe</a>
+                    </li>
+                    <li>
+                        <a href="#selectplan" id="selectplan">selectplan</a>
+                    </li>
+                    <li>
+                        <a href="#dialer" id="dialer">Dialer</a>
+                    </li>
+                    <li>
+                        <a href="#ewallet" id="ewallet">E-Wallet</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="<?php echo e(url('auth/logout')); ?>">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </nav>
+
+    <?php echo $__env->make('modals.confirm', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('modals.payment', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('modals.paypercall', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    <header id="top" class="header">
+
+        <section id="tab_header" class="section">
+                <?php echo $__env->make('tabs.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </section>
+
+
+        <section id="tab_call" class="bg-05 section">
+
+                <?php echo $__env->make('tabs.call', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </section>
+
+        <section id="tab_subscribe" class="bg-04 section">
+
+                <?php echo $__env->make('tabs.subscribe', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </section>
+
+        <section id="tab_selectplan" class="container-fluid bg-06 section">
+
+            <?php echo $__env->make('tabs.selectplan', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        </section>
+
+        <section id="tab_dialer" class="bg-02 section">
+
+                <?php echo $__env->make('tabs.dialer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        </section>
+
+        <section id="tab_ewallet" class="bg-03 section">
+
+                <?php echo $__env->make('tabs.ewallet', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        </section>
+
+    </header>
+
+    <!-- <?php echo $__env->make('modals.confirm', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>; -->
+
+    <!--scripts loaded here from cdn for performance -->
+    <script src="<?php echo e(asset('js/jquery.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/bootstrap.min.js')); ?>"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+    <script src="<?php echo e(asset('js/app.js')); ?>"></script>
+
+        <!-- Custom Theme JavaScript -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#tab_call").hide();
+            $("#tab_subscribe").hide();
+            $("#tab_selectplan").hide();
+            $("#tab_dialer").hide();
+            $("#tab_ewallet").hide();
+
+            $("#header").click(function(){
+                $(".section").fadeOut('slow');
+                $("#tab_header").delay(400).fadeIn('slow');
+            });
+
+            $("#call").click(function(){
+                $(".section").fadeOut('slow');
+                $("#tab_call").delay(400).fadeIn('slow');
+            });
+
+            $("#subscribe").click(function(){
+                $(".section").fadeOut('slow');
+                $("#tab_subscribe").delay(400).fadeIn('slow');
+
+                $.ajax({
+                      type: 'GET',
+                      url: 'api/plans',
+                      beforeSend:function(){
+                        // this is where we append a loading image
+                        $('#div_products').html('<div class="loading"><img src="<?php echo e(asset("images/loading.gif")); ?>" alt="Loading..." /></div>');
+                      },
+                      success:function(response){
+                        // successful request; do something with the data
+                        $('#div_products').empty();
+                        var data = jQuery.parseJSON(response);
+                        $.each(data, function(group){
+                            $('#div_products').append('<div class="col-lg-12 col-md-12 text-center">');
+                            $('#div_products').append('<h3>'+group+'</h3>');
+                            $.each(data[group], function(products){
+                                $('#div_products').append('<div');
+                                $('#div_products').append('<div class="media wow fadeInRight">');
+                                $('#div_products').append('<a href="#confirmationModal" class="btn btn-primary" data-toggle="modal">'+data[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+data[group][products]['price']+'</strong></a>');
+                                $('#div_products').append('</div>');
+                            });
+                            $('#div_products').append('</div><hr>');
+                        });
+                      },
+                      error:function(){
+                        // failed request; give feedback to user
+                        $('#subscribe-ajax').html('<p class="error"><strong>Oops!</strong> Try that again in a few moments.</p>');
+                      }
+                });
+            });
+
+
+            $("#selectplan").click(function(){
+                $(".section").fadeOut('slow');
+                $("#tab_selectplan").delay(400).fadeIn('slow');
+            });
+
+            $("#dialer").click(function(){
+                $(".section").fadeOut('slow');
+                $("#tab_dialer").delay(400).fadeIn('slow');
+            });
+      
+
+            $("#ewallet").click(function(){
+                $(".section").fadeOut('slow');
+                $("#tab_ewallet").delay(400).fadeIn('slow');
+                
+                $.ajax({
+                      type: 'GET',
+                      url: 'api/getwallet',
+                      beforeSend:function(){
+                        // this is where we append a loading image
+                        $('#div_balance').html('<div class="loading"><img src="<?php echo e(asset("images/loading.gif")); ?>" alt="Loading..." /></div>');
+                      },
+                      success:function(response){
+                        $('#div_balance').empty();
+                        var data = jQuery.parseJSON(response);
+                        $('#div_balance').append('<h1 class="text-left"><strong>$'+data['balance']+'</strong></h1>');
+                        $('#div_balance').append('<p class="text-left">As of today 7:14pm</p>');
+                      },
+                      error:function(){
+                          
+                      }
+                });
+            });
+
+
+
+
+            //dialer
+            $('.num').click(function () {
+                var num = $(this);
+                var text = $.trim(num.find('.txt').clone().children().remove().end().text());
+                var telNumber = $('#telNumber');
+                $(telNumber).val(telNumber.val() + text);
+            });
+
+
+            $('.num-delete').click(function () {
+                var str = $('#telNumber').val();
+                $('#telNumber').val(str.substring(0, str.length - 1));
+            });
+
+        });
+
+    </script>
+   
+    
+  </body>
+
+   
+
+</html>
