@@ -5,15 +5,19 @@ $("#ewallet").click(function(){
     $.ajax({
           type: 'GET',
           url: 'api/getwallet',
+          dataType : "json",
           beforeSend:function(){
             // this is where we append a loading image
             $('#div_balance').html('<div class="loading"><img src="{{asset("images/loading.gif")}}" alt="Loading..." /></div>');
           },
           success:function(response){
-            $('#div_balance').empty();
-            var data = jQuery.parseJSON(response);
-            $('#div_balance').append('<h1 class="text-left"><strong>$'+data['balance']+'</strong></h1>');
-            $('#div_balance').append('<p class="text-left">As of today 7:14pm</p>');
+            if ( response.status === "failed" ) {
+                // ERROR
+            } else {
+                $('#div_balance').empty();
+                $('#div_balance').append('<h1 class="text-left"><strong>$'+response.balance+'</strong></h1>');
+                $('#div_balance').append('<p class="text-left">As of today 7:14pm</p>');
+            }
           },
           error:function(){
 

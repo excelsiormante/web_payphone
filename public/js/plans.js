@@ -2,17 +2,21 @@ function confirmProduct(plan_id){
     $.ajax({
           type: 'GET',
           url: 'api/plan_desc',
+          dataType: "json",
           data: {
               plan_id : plan_id
           },
-          dataType: "json",
           beforeSend:function(){
             
           },
           success:function(response){
+            if ( response.status === "failed" ) {
+                // ERROR
+            } else {
               $('#plan_id').val(response.product_id);
               $('#plan_name').html(response.name);
               $('#plan_price').html("This will deduct $"+response.price+" to your E-wallet");
+            }
           },
           error:function(){
             
@@ -25,15 +29,19 @@ function subscribePlan(){
     $.ajax({
           type: 'GET',
           url: 'api/subscribe',
+          dataType: "json",
           data: {
               plan_id : plan_id
           },
-          dataType: "json",
           beforeSend:function(){
             
           },
           success:function(response){
-              
+            if ( response.status === "failed" ) {
+                // ERROR
+            } else {
+                
+            }
           },
           error:function(){
             
@@ -48,25 +56,29 @@ $("#subscribe").click(function(){
     $.ajax({
           type: 'GET',
           url: 'api/plans',
+          dataType: "json",
           beforeSend:function(){
             // this is where we append a loading image
             $('#div_products').html('<div class="loading"><img src="{{asset("images/loading.gif")}}" alt="Loading..." /></div>');
           },
           success:function(response){
-            // successful request; do something with the data
-            $('#div_products').empty();
-            var data = jQuery.parseJSON(response);
-            $.each(data, function(group){
-                $('#div_products').append('<div class="col-lg-12 col-md-12 text-center">');
-                $('#div_products').append('<h3>'+group+'</h3>');
-                $.each(data[group], function(products){
-                    $('#div_products').append('<div');
-                    $('#div_products').append('<div class="media wow fadeInRight">');
-                    $('#div_products').append('<a href="#confirmationModal" class="btn btn-primary" data-toggle="modal" onclick="confirmProduct('+data[group][products]['id']+')">'+data[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+data[group][products]['price']+'</strong></a>');
-                    $('#div_products').append('</div>');
+            if ( response.status === "failed" ) {
+                // ERROR
+            } else {
+                // successful request; do something with the data
+                $('#div_products').empty();
+                $.each(response, function(group){
+                    $('#div_products').append('<div class="col-lg-12 col-md-12 text-center">');
+                    $('#div_products').append('<h3>'+group+'</h3>');
+                    $.each(response[group], function(products){
+                        $('#div_products').append('<div');
+                        $('#div_products').append('<div class="media wow fadeInRight">');
+                        $('#div_products').append('<a href="#confirmationModal" class="btn btn-primary" data-toggle="modal" onclick="confirmProduct('+response[group][products]['id']+')">'+response[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+response[group][products]['price']+'</strong></a>');
+                        $('#div_products').append('</div>');
+                    });
+                    $('#div_products').append('</div><hr>');
                 });
-                $('#div_products').append('</div><hr>');
-            });
+            }
           },
           error:function(){
             // failed request; give feedback to user
