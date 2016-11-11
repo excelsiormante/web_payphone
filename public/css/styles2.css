@@ -19,6 +19,7 @@ body {
     background-color: #FFFFFF;
     color: #d3d3d3;
     webkit-tap-highlight-color: #222;
+    overflow-x: hidden;
 }
 
 hr {
@@ -312,10 +313,10 @@ footer {
         max-width: 80%;
         font-size: 18px;
     }
-    
+        
     section {
         min-height: 600px;
-        padding: 100px 0;
+        padding: 55px 0;
     }
 
 }
@@ -617,7 +618,7 @@ img::-moz-selection {
 }
 .num-pad
 {
-    padding-left: 15px;
+    padding-left: 50px;
     margin: 0 auto;
 }
 

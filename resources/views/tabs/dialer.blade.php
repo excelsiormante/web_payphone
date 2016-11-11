@@ -1,7 +1,4 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4 phone">
-            <div class="row1">
+
                 <div class="col-md-12">
                 <input type="tel" name="name" id="telNumber" class="form-control tel" value=""/>
                     <div class="num-pad">
@@ -118,11 +115,5 @@
                     </div><!--Numpad-->
 
                 </div>
-            </div>
-       
-
-  
-        </div>
-    </div>
-</div>
-
+    
+    

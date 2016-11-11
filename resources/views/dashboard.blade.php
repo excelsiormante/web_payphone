@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
     <link rel="stylesheet" href="{{asset('css/styles2.css')}}" />
     <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/simple-sidebar.css')}}" rel="stylesheet">
 
   </head>
   <body>
@@ -58,6 +59,7 @@
     @include('modals.payment')
     @include('modals.paypercall')
 
+
     <header id="top" class="header">
 
         <section id="tab_header" class="section">
@@ -94,7 +96,6 @@
         </section>
 
     </header>
-
     <!-- @include('modals.confirm_plan'); -->
 
     <!--scripts loaded here from cdn for performance -->
@@ -175,10 +176,14 @@
                 $('#telNumber').val(str.substring(0, str.length - 1));
             });
 
+            $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
         });
 
     </script>
-   
     
   </body>
 

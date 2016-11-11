@@ -1,3 +1,8 @@
+  
+@extends('layouts.section')
+
+@section('content')
+
 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 text-center">
@@ -10,10 +15,14 @@
                     </div>
 
                      <div class="media wow fadeInRight">
-                        <a href="#" class="btn btn-primary dialer" data-toggle="modal"><strong><font color="#44ff00">Call : &nbsp; &nbsp; 09955505018</font></strong> &nbsp;&nbsp;&nbsp;</a>
+                        <a href="#menu-toggle" class="btn btn-primary dialer" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; 09955505018</font></strong> &nbsp;&nbsp;&nbsp;</a>
                      </div>
                       <div class="media wow fadeInRight">
                         <a href="#confirmationModal" class="btn btn-primary" data-toggle="modal">+ Add another number to plan &nbsp;</a>
                      </div>
 
 </div>
+
+@endsection
+
+
