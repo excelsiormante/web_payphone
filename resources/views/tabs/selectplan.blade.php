@@ -1,57 +1,7 @@
 <div class="row">
-                <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-
-                    <h2 class="text-center text-primary"><font color="white">SELECT YOUR PREFERRED CALL OPTION</font></h2>
-
-                    <a href="#unliModal" data-toggle="modal" class="select-plan call">
-                        <div class="media wow fadeInRight">
-
-                            <div class="col-md-1"></div>
-                            <div class="col-md-3" style="padding-left: 0px;  padding-right: 0px; height:60px; width:60px; margin-top: 1.5em !important;">
-                                <img src="{{asset('images/unli.png')}}" class="img-responsive">
-                            </div>
-
-                            <div class="col-md-8">
-                                 <h3 class="text-center">Unlimited Call</h3>
-                                <p class="text-right"><font color="#04ff00"><strong>2</strong> days left before expiration</font></p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <hr>
-
-                    <a href="#paypercallModal" class="select-plan" data-toggle="modal">
-                        <div class="media wow fadeInRight">
-
-                            <div class="col-md-1"></div>
-                            <div class="col-md-3" style="padding-left: 0px;  padding-right: 0px; height:60px; width:60px; margin-top: 1.5em !important;">
-                                <img src="{{asset('images/paypercall.png')}}" class="img-responsive">
-                            </div>
-
-                            <div class="col-md-8">
-                                 <h3 class="text-center">Pay Per Call</h3>
-                                <p class="text-right"><font color="red">Currently not subscribed on this plan</font></p>
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <hr>
-
-                    <a href="#" class="select-plan call">
-                        <div class="media wow fadeInRight">
-
-                            <div class="col-md-1"></div>
-                            <div class="col-md-3" style="padding-left: 0px;  padding-right: 0px; height:60px; width:60px; margin-top: 1.5em !important;">
-                                <img src="{{asset('images/bucket.png')}}" class="img-responsive">
-                            </div>
-
-                            <div class="col-md-8">
-                                 <h3 class="text-center">Bucket Call</h3>
-                                <p class="text-right"><font color="#04ff00"><strong>30</strong> minutes left before expiration</font></p>
-                            </div>
-                        </div>
-                    </a>
-                    
-                </div>
-            </div>
+    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+        <h1 class="text-center text-primary"><font color="white">SELECT YOUR PREFERRED CALL OPTION</font></h1>
+        <br>
+        <div id="myplans"></div>
+    </div>
+</div>

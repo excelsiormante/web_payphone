@@ -76,4 +76,39 @@ class PlansController extends Controller
         }
         return json_encode($subscription);
     }
+    
+    public function myPlans(){
+        $myplan = array();
+        $subscriber_id = Session::get('subscriber_id');
+        
+        try {
+            $query = "SELECT * FROM pgc_halo.fn_get_my_plans(?)
+                      RESULT (product_id integer, code varchar, name varchar, description text, product_type varchar, remaining_mins integer);";
+            $values = array($subscriber_id);
+            $result = DB::select($query, $values);
+            if ( count($result) > 0 ) {
+                foreach ($result as $value) {
+                    if ( isset($myplan[$value->product_type]) ) {
+                        $plan_details = array(
+                                                        'product_id'     => $value->product_id,
+                                                        'name'           => $value->name,
+                                                        'description'    => $value->description,
+                                                        'remaining_mins' => $value->remaining_mins
+                                                    );
+                        array_push($myplan, $plan_details);
+                    } else {
+                        $myplan[$value->product_type][0] = array(
+                                                        'product_id'     => $value->product_id,
+                                                        'name'           => $value->name,
+                                                        'description'    => $value->description,
+                                                        'remaining_mins' => $value->remaining_mins
+                                                    );
+                    }
+                }
+            }
+        } catch (Exception $exc) {
+            
+        }
+        return json_encode($myplan);
+    }
 }

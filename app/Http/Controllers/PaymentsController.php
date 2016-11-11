@@ -26,7 +26,7 @@ class PaymentsController extends Controller
         $provider = new ExpressCheckout; 
 
         $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
-        $subscriber_id = Session::get('subsciber_id');
+        $subscriber_id = Session::get('subscriber_id');
         $add_trans_values = array($subscriber_id, $amount, "PAYPAL");
         $add_trans_result = DB::select($add_trans_query, $add_trans_values);
         $transaction_id = $add_trans_result[0]->trans_id;

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Session, URL;
 
 class Authenticate
 {
@@ -34,9 +35,15 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->guest()) {
+        $subscriber_id = Session::get("subscriber_id");
+        
+        if ( $this->auth->guest() || $subscriber_id === null ) {
             if ($request->ajax()) {
-                return response('Unauthorized.', 401);
+                return json_encode(array(
+                                    "status" => "failed",
+                                    "home"   => URL::to('auth/login')
+                                    )
+                                );
             } else {
                 return redirect()->guest('auth/login');
             }
