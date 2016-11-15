@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Wallet;
-use Request, Session, DB, Validator, Input, Redirect;
+use Request, Session, DB, Validator, Input, Redirect, Crypt;
 use App\Http\Controllers\Controller;
 
 class WalletController extends Controller
@@ -18,7 +18,7 @@ class WalletController extends Controller
     public function getwallet()
     {
         try {
-            $subscriber_id = Session::get('subscriber_id');
+            $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
             $query = "SELECT * FROM pgc_halo.fn_get_wallet_balance(?) AS balance";
             $values = array($subscriber_id);
             $result = DB::select($query,$values);
