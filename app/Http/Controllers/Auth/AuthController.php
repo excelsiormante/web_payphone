@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Validator;
+use Validator, Crypt;
 use Auth, Input, Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -51,7 +51,7 @@ class AuthController extends Controller
             // Authentication passed...
             $user = Auth::user();
 
-            Session::put('subscriber_id', $user->id);
+            Session::put('subscriber_id', Crypt::encrypt($user->id));
             Session::put('name', $user->name);
             Session::put('email', $user->email_address);
 

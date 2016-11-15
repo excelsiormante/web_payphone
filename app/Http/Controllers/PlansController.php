@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Plan;
-use Request, Session, DB, Validator, Input, Redirect;
+use Request, Session, DB, Validator, Input, Redirect, Crypt;
 use App\Http\Controllers\Controller;
 
 class PlansController extends Controller
@@ -65,7 +65,7 @@ class PlansController extends Controller
     
     public function subscribe(){
         $plan_id       = Input::get('plan_id');
-        $subscriber_id = Session::get('subscriber_id');
+        $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
         try {
             $query = "SELECT pgc_halo.fn_subscribe_to_plan(?,?) as is_subscribe;";
             $values = array($subscriber_id, $plan_id);
@@ -79,7 +79,7 @@ class PlansController extends Controller
     
     public function myPlans(){
         $myplan = array();
-        $subscriber_id = Session::get('subscriber_id');
+        $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
         
         try {
             $query = "SELECT * FROM pgc_halo.fn_get_my_plans(?)

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\SocialAccountService;
-use Socialite, Session;
+use Socialite, Session, Crypt; 
 
 class SocialAuthController extends Controller
 {
@@ -24,7 +24,7 @@ class SocialAuthController extends Controller
 
         auth()->login($user);
 
-        Session::put('subscriber_id', $user->id);
+        Session::put('subscriber_id', Crypt::encrypt($user->id));
         Session::put('name',$user->name);
         Session::put('email', $user->email);
 
