@@ -10,6 +10,7 @@ use Srmklive\PayPal\Services\ExpressCheckout;
 use Srmklive\PayPal\Services\AdaptivePayments;
 use redirect, response;
 use App\Libraries\Paymaya;
+use App\Libraries\PaymayaTransfer;
 use DB, Session;
 
 class PaymentsController extends Controller
@@ -104,6 +105,16 @@ class PaymentsController extends Controller
     public function PaymayaSuccessCheckout()
     {
         dd(Request::all());
+    }
+
+
+
+    public function PaymayaTransfer()
+    {
+        
+        $response = PaymayaTransfer::CreateTransfer();
+
+        return redirect($response['redirectUrl']);
     }
 
  

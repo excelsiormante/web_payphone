@@ -59,7 +59,7 @@ $("#subscribe").click(function(){
           dataType: "json",
           beforeSend:function(){
             // this is where we append a loading image
-            $('#div_products').html('<div class="loading"><img src="{{asset("images/loading.gif")}}" alt="Loading..." /></div>');
+            $('#div_products').html('<div class="cssload-loader"><div class="cssload-inner cssload-one"></div><div class="cssload-inner cssload-two"></div><div class="cssload-inner cssload-three"></div></div>');
           },
           success:function(response){
             if ( response.status === "failed" ) {

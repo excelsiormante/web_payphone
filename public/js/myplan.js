@@ -7,7 +7,7 @@ $("#selectplan").click(function(){
         url      : 'api/myplans',
         dataType : "json",
         beforeSend:function(){
-            
+            $('#myplans').html('<div class="cssload-loader"><div class="cssload-inner cssload-one"></div><div class="cssload-inner cssload-two"></div><div class="cssload-inner cssload-three"></div></div>');
         },
         success:function(response){
             if ( response.status === "failed" ) {
@@ -21,7 +21,7 @@ $("#selectplan").click(function(){
                     $("#myplans").append('<hr>');
                     $.each(response[group], function(details){
                         $("#myplans").append('<h3 class="text-center">'+response[group][details].name+'</h3>');
-                        $("#myplans").append('<p class="text-right"><font color="#04ff00"><strong>'+response[group][details].remaining_mins+'</strong> minutes left before expiration</font></p>');
+                        $("#myplans").append('<p class="text-center"><font color="#04ff00"><strong>'+response[group][details].remaining_mins+'</strong> minutes left before expiration</font></p>');
                     });
                     $("#myplans").append('</a>');
                 });

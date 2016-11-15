@@ -4,7 +4,7 @@
         	<div class="modal-body">
         		<h2 class="text-center">Enter amount to be loaded:</h2>
 
-        		<input style="text-align:center; width: 300px;  margin-left: auto; margin-right: auto;" type="number" class="form-control" name="amount"  placeholder="Amount in dollars ($)" id="amount">
+        		<input style="text-align:center; width: 300px;  margin-left: auto; margin-right: auto;" type="number" class="form-control" name="amount"  placeholder="Amount in dollars ($)" id="amount" min="0" step="0.01">
 
                 <br>
 

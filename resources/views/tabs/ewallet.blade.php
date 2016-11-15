@@ -1,3 +1,4 @@
+
 <div class="row">
                 <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
 
@@ -13,7 +14,7 @@
 
                             <div class="col-md-7">
                                 <h2 class="text-left">Balance</h2>
-                                <div id="div_balance">
+                                <div id="div_balance" class="pull-left">
                                     
                                 </div>
                             </div>
@@ -36,4 +37,4 @@
 
                     
                 </div>
-            </div>
+            </div>      

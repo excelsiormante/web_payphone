@@ -1,4 +1,5 @@
-<?php namespace App\Libraries;
+<?php 
+namespace App\Libraries;
 
 use Config;
 
@@ -32,13 +33,13 @@ class Paymaya
         curl_setopt($ch, CURLOPT_POSTFIELDS, "{
   \"totalAmount\": {
     \"currency\": \"PHP\",
-    \"value\": \"6404.90\",
+    \"value\": \"".$amount."\",
     \"details\": {
-      \"discount\": \"300.00\",
-      \"serviceCharge\": \"50.00\",
-      \"shippingFee\": \"200.00\",
-      \"tax\": \"691.60\",
-      \"subtotal\": \"5763.30\"
+      \"discount\": \"0.00\",
+      \"serviceCharge\": \"0.00\",
+      \"shippingFee\": \"0.00\",
+      \"tax\": \"0.00\",
+      \"subtotal\": \"".$amount."\"
     }
   },
   \"buyer\": {
@@ -54,40 +55,28 @@ class Paymaya
   },
   \"items\": [
     {
-      \"name\": \"Canvas Slip Ons\",
-      \"code\": \"CVG-096732\",
-      \"description\": \"Shoes\",
-      \"quantity\": \"3\",
-      \"amount\": {
-        \"value\": \"1621.10\",
-        \"details\": {
-          \"discount\": \"100.00\",
-          \"subtotal\": \"1721.10\"
-        }
-      },
-      \"totalAmount\": {
-        \"value\": \"4863.30\",
-        \"details\": {
-          \"discount\": \"300.00\",
-          \"subtotal\": \"5163.30\"
-        }
-      }
-    },
-    {
-      \"name\": \"PU Ballerina Flats\",
-      \"code\": \"CVR-096RE2\",
-      \"description\": \"Shoes\",
+      \"name\": \"E-Wallet\",
+      \"code\": \"ELOAD-012345\",
+      \"description\": \"E-Wallet load\",
       \"quantity\": \"1\",
       \"amount\": {
-        \"value\": \"600.00\"
+        \"value\": \"".$amount."\",
+        \"details\": {
+          \"discount\": \"0.00\",
+          \"subtotal\": \"".$amount."\"
+        }
       },
       \"totalAmount\": {
-        \"value\": \"600.00\"
+        \"value\": \"".$amount."\",
+        \"details\": {
+          \"discount\": \"0.00\",
+          \"subtotal\": \"".$amount."\"
+        }
       }
     }
   ],
   \"redirectUrl\": {
-    \"success\": \"localhost/webpayphone-app/public/payment/success\",
+    \"success\": \"localhost/webpayphone-app/public\",
     \"failure\": \"localhost/webpayphone-app/public\",
     \"cancel\": \"localhost/webpayphone-app/public\"
   },
@@ -101,7 +90,6 @@ class Paymaya
 
         $response = curl_exec($ch);
         curl_close($ch);
-
         return json_decode($response,true);
       
     }

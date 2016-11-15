@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function()
 	Route::get('paymaya/set/{amount}', 'PaymentsController@PaymayaCheckout');
 	Route::get('paymaya/success', 'PaymentsController@PaymayaSuccessCheckout');
 
+	Route::get('paymayatransfer/set', 'PaymentsController@PaymayaTransfer');
+
 	Route::get('api/plans', 'PlansController@index');
         Route::get('api/plan_desc', 'PlansController@getDescription');
         Route::get('api/subscribe', 'PlansController@subscribe');

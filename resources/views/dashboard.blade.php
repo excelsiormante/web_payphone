@@ -12,11 +12,12 @@
     <link rel="stylesheet" href="{{asset('css/styles2.css')}}" />
     <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/simple-sidebar.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/loading.css')}}" rel="stylesheet">
 
   </head>
   <body>
 
-    <nav id="topNav" class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar">
@@ -27,38 +28,50 @@
                 </button>
                 <a class="navbar-brand" href="#one" id="header"><img src="{{asset('images/logo.png')}}" class="img-responsive pull-left"><font color="white"> WebPayPhone</font></a>
             </div>
-            <div class="navbar-collapse collapse" id="bs-navbar">
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#call" id="call">Call</a>
+                        <a href="#call" id="call" class="navigate">Call</a>
                     </li>
                     <li>
-                        <a href="#subscribe" id="subscribe">Subscribe</a>
+                        <a href="#subscribe" id="subscribe" class="navigate">Subscribe</a>
                     </li>
                     <li>
-                        <a href="#selectplan" id="selectplan">selectplan</a>
+                        <a href="#selectplan" id="selectplan" class="navigate">selectplan</a>
                     </li>
                     <li>
-                        <a href="#dialer" id="dialer">Dialer</a>
+                        <a href="#dialer" id="dialer" class="navigate">Dialer</a>
                     </li>
                     <li>
-                        <a href="#ewallet" id="ewallet">E-Wallet</a>
+                        <a href="#ewallet" id="ewallet" class="navigate">E-Wallet</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="{{url('auth/logout')}}">Logout</a>
+                       <!-- <a href="{{url('auth/logout')}}">Logout</a>  -->
+
+
                     </li>
                 </ul>
             </div>
         </div>
-        
-    </nav>
 
+        <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+                            <span class="hamb-top"></span>
+                            <span class="hamb-middle"></span>
+                            <span class="hamb-bottom"></span>
+                        </button>
+
+    </nav>
+    
+    @extends('layouts.section')
+    @section('content')
+        
     @include('modals.confirm_plan')
     @include('modals.payment')
     @include('modals.paypercall')
 
+   
 
     <header id="top" class="header">
 
@@ -67,26 +80,25 @@
         </section>
 
 
-        <section id="tab_call" class="bg-05 section">
-
-                @include('tabs.call')
-        </section>
-
         <section id="tab_subscribe" class="bg-04 section">
 
                 @include('tabs.subscribe')
         </section>
 
-        <section id="tab_selectplan" class="container-fluid bg-06 section">
 
-            @include('tabs.selectplan')
+        <section id="tab_selectplan" class="bg-01 section">
 
+                @include('tabs.selectplan')
         </section>
 
         <section id="tab_dialer" class="bg-02 section">
 
                 @include('tabs.dialer')
+        </section>
 
+        <section id="tab_call" class="bg-05 section">
+
+                @include('tabs.call')
         </section>
 
         <section id="tab_ewallet" class="bg-03 section">
@@ -95,7 +107,11 @@
 
         </section>
 
+         
     </header>
+
+    @endsection
+   
     <!-- @include('modals.confirm_plan'); -->
 
     <!--scripts loaded here from cdn for performance -->
@@ -103,24 +119,22 @@
     <script src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/lib/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/lib/wow.js') }}"></script>
+    <script src="{{ asset('js/lib/sidebar.js') }}"></script>
     <script src="{{ asset('js/mywallet.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
     <script src="{{ asset('js/myplan.js') }}"></script>
 
+
         <!-- Custom Theme JavaScript -->
     <script type="text/javascript">
         $(document).ready(function(){
-            $("#tab_call").hide();
             $("#tab_subscribe").hide();
-            $("#tab_selectplan").hide();
-            $("#tab_dialer").hide();
             $("#tab_ewallet").hide();
+            $("#tab_call").hide();
+            $("#tab_dialer").hide();
+            $("#tab_selectplan").hide();
 
-            $("#header").click(function(){
-                $(".section").fadeOut('slow');
-                $("#tab_header").delay(400).fadeIn('slow');
-            });
-
+            //tabs
             $("#call").click(function(){
                 $(".section").fadeOut('slow');
                 $("#tab_call").delay(400).fadeIn('slow');
@@ -130,7 +144,12 @@
                 $(".section").fadeOut('slow');
                 $("#tab_dialer").delay(400).fadeIn('slow');
             });
-      
+
+            $("#header").click(function(){
+                $(".section").fadeOut('slow');
+                $("#tab_header").delay(400).fadeIn('slow');
+            });
+
             //dialer
             $('.num').click(function () {
                 var num = $(this);
@@ -153,6 +172,7 @@
         });
 
     </script>
+
     
   </body>
 
