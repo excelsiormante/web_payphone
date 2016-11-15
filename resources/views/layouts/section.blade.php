@@ -11,6 +11,9 @@
                                 <h4 class="media-heading">Rodrigo Duterte</h4>
                                 <h5>E-Wallet Balance<br><strong><font color="#04ff00">$40.00</font></strong></h5>
                                 <hr style="margin:8px auto">
+
+                                <span class="label label-default">Contacts</span>
+                                <span class="label label-default">Recent</span>
                             </div>
                         </div>
                   
