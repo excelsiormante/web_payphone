@@ -32,6 +32,9 @@ return [
                     )
                 ),
     
-    'PAGE_LIMIT' => 10
+    'PAGE_LIMIT' => 10,
+    
+    "ARCHER_USERNAME" => "IRB",
+    "ARCHER_PASSWORD" => "pldtglobal"
     
 ];
