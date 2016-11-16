@@ -1,6 +1,7 @@
 $(document).ready(function () {
+
   var trigger = $('.hamburger'),
-     isClosed = false;
+     isClosed = true;
 
     trigger.click(function () {
       hamburger_cross();      
