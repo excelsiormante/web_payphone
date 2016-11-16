@@ -52,8 +52,10 @@ function generateCallPage(product_id){
           beforeSend:function(){
             // this is where we append a loading image
             $('#div_call').hide();
+            overlay.show();
           },
           success:function(response){
+            overlay.delay(500).fadeOut('fast');
             if ( response['plans'] === false ) {
                 alert("No available plan.");
             } else {

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Plan;
 use Request, Session, DB, Validator, Input, Redirect, Crypt;
 use App\Http\Controllers\Controller;
+use App\Libraries\Common;
 
 class PlansController extends Controller
 {
@@ -15,36 +16,31 @@ class PlansController extends Controller
      * @return Response
      */
 
-    public function index()
-    {
+    public function index(){
         $plans = array();
-        try {
-            $query = "SELECT * FROM pgc_halo.fn_get_products()
-                      RESULT (id integer, code varchar, name varchar, description text, price float, product_type varchar, call_duration integer, nominations integer, plan_duration integer, status integer);";
-            $result = DB::select($query);
-            if ( count($result) > 0 ) {
-                foreach ($result as $value) {
-                    if ( isset($plans[$value->product_type]) ) {
-                        $plan_details = array(
-                                                        'id'              => $value->id,
-                                                        'name'            => $value->name,
-                                                        'description'     => $value->description,
-                                                        'price'           => $value->price
-                                                    );
-                        array_push($plans[$value->product_type], $plan_details);
-                    } else {
-                        $plans[$value->product_type][0] = array(
-                                                        'id'              => $value->id,
-                                                        'name'            => $value->name,
-                                                        'description'     => $value->description,
-                                                        'price'           => $value->price
-                                                    );
-                    }
+        $json_products = Common::callArcherAPI("10.251.14.197:8093/aog/getproducts/IRB/dealerid=319");
+        $products = json_decode($json_products);
+        if ( $products->resultCode->errorCode === 0 ) {
+            foreach ($products->productDefList as $value) {
+                if ( isset($plans[$value->productType]) ) {
+                    $plan_details = array(
+                                                    'id'              => $value->productId,
+                                                    'name'            => $value->productVariantName,
+                                                    'description'     => $value->description,
+                                                    'price'           => $value->productPrice
+                                                );
+                    array_push($plans[$value->productType], $plan_details);
+                } else {
+                    $plans[$value->productType][0] = array(
+                                                    'id'              => $value->productId,
+                                                    'name'            => $value->productVariantName,
+                                                    'description'     => $value->description,
+                                                    'price'           => $value->productPrice
+                                                );
                 }
             }
-        } catch (Exception $exc) {
-            
         }
+        
         return json_encode($plans);
     }
 
