@@ -1,6 +1,6 @@
 $("#ewallet").click(function(){
-    $(".section").fadeOut('slow');
-    $("#tab_ewallet").delay(400).fadeIn('slow');
+    $(".section").fadeOut('fast');
+    $("#tab_ewallet").delay(50).fadeIn('fast');
 
     $.ajax({
           type: 'GET',
@@ -8,12 +8,13 @@ $("#ewallet").click(function(){
           dataType : "json",
           beforeSend:function(){
             // this is where we append a loading image
-            $('#div_balance').html('<div class="cssload-loader"><div class="cssload-inner cssload-one"></div><div class="cssload-inner cssload-two"></div><div class="cssload-inner cssload-three"></div></div>');
+            overlay.show();
           },
           success:function(response){
             if ( response.status === "failed" ) {
                 // ERROR
             } else {
+                overlay.delay(500).fadeOut('fast');
                 $('#div_balance').empty();
                 $('#div_balance').append('<h1 class="text-left"><strong>$'+response.balance+'</strong></h1>');
                 $('#div_balance').append('<p class="text-left">As of today 7:14pm</p>');

@@ -50,8 +50,8 @@ function subscribePlan(){
 }
 
 $("#subscribe").click(function(){
-    $(".section").fadeOut('slow');
-    $("#tab_subscribe").delay(400).fadeIn('slow');
+    $(".section").fadeOut('fast');
+    $("#tab_subscribe").delay(50).fadeIn('fast');
 
     $.ajax({
           type: 'GET',
@@ -59,13 +59,14 @@ $("#subscribe").click(function(){
           dataType: "json",
           beforeSend:function(){
             // this is where we append a loading image
-            $('#div_products').html('<div class="cssload-loader"><div class="cssload-inner cssload-one"></div><div class="cssload-inner cssload-two"></div><div class="cssload-inner cssload-three"></div></div>');
+            overlay.show();
           },
           success:function(response){
             if ( response.status === "failed" ) {
                 // ERROR
             } else {
                 // successful request; do something with the data
+                overlay.delay(500).fadeOut('fast');
                 $('#div_products').empty();
                 $.each(response, function(group){
                     $('#div_products').append('<div class="col-lg-12 col-md-12 text-center">');

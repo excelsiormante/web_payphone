@@ -1,18 +1,19 @@
 $("#selectplan").click(function(){
-    $(".section").fadeOut('slow');
-    $("#tab_selectplan").delay(400).fadeIn('slow');
+    $(".section").fadeOut('fast');
+    $("#tab_selectplan").delay(50).fadeIn('fast');
     
     $.ajax({
         type     : 'GET',
         url      : 'api/myplans',
         dataType : "json",
         beforeSend:function(){
-            $('#myplans').html('<div class="cssload-loader"><div class="cssload-inner cssload-one"></div><div class="cssload-inner cssload-two"></div><div class="cssload-inner cssload-three"></div></div>');
+            overlay.show();
         },
         success:function(response){
             if ( response.status === "failed" ) {
                 window.location = response.home;
             } else {
+                overlay.delay(500).fadeOut('fast');    
                 $("#myplans").empty();
                 $.each(response, function(group){
                     $("#myplans").append('<a href="#paypercallModal" class="select-plan" data-toggle="modal">');

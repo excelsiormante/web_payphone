@@ -33,7 +33,7 @@ hr.light {
 }
 
 a {
-    color: #9c27b0;
+    color: #FFFFFF;
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
@@ -42,7 +42,7 @@ a {
 
 a:hover,
 a:focus {
-    color: #9c27c1;
+    color: #FFFFFF;
     outline: 0;
 }
 
@@ -748,6 +748,7 @@ img::-moz-selection {
     -webkit-transition: background-color .2s linear 0s;
     -o-transition: background-color .2s linear 0s;
 }
+
 .spanicons
 {
     width: 72px;
@@ -779,4 +780,30 @@ img::-moz-selection {
 .select-plan:hover
 {
     color: #FFFFFF;
+}
+
+
+/*-------------------------------*/
+/*            Overlay            */
+/*-------------------------------*/
+.overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0, 0.8);
+  z-index: 1;
+}
+
+
+.centered-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
 }

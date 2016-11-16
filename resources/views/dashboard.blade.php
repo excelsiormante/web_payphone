@@ -110,6 +110,12 @@
          
     </header>
 
+    <div class="overlay">
+        <div class="centered-loading">
+        <div class="cssload-loader"><div class="cssload-inner cssload-one"></div><div class="cssload-inner cssload-two"></div><div class="cssload-inner cssload-three"></div></div>
+        </div>
+    </div>
+
     @endsection
    
     <!-- @include('modals.confirm_plan'); -->
@@ -133,6 +139,8 @@
             $("#tab_call").hide();
             $("#tab_dialer").hide();
             $("#tab_selectplan").hide();
+
+            overlay = $('.overlay'),
 
             //tabs
             $("#call").click(function(){
