@@ -56,6 +56,8 @@ class AuthController extends Controller
             Session::put('email', $user->email_address);
 
             return redirect()->intended('/');
+        } else {
+            return redirect('auth/login');
         }
     }
 
