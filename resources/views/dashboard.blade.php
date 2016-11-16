@@ -68,6 +68,7 @@
     @section('content')
         
     @include('modals.confirm_plan')
+    @include('modals.add_speed_dial')
     @include('modals.payment')
     @include('modals.paypercall')
 
@@ -126,6 +127,7 @@
     <script src="{{ asset('js/lib/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/lib/wow.js') }}"></script>
     <script src="{{ asset('js/lib/sidebar.js') }}"></script>
+    <script src="{{ asset('js/call.js') }}"></script>
     <script src="{{ asset('js/mywallet.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
     <script src="{{ asset('js/myplan.js') }}"></script>
@@ -143,11 +145,6 @@
             overlay = $('.overlay'),
 
             //tabs
-            $("#call").click(function(){
-                $(".section").fadeOut('slow');
-                $("#tab_call").delay(400).fadeIn('slow');
-            });
-
             $("#dialer").click(function(){
                 $(".section").fadeOut('slow');
                 $("#tab_dialer").delay(400).fadeIn('slow');

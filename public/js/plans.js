@@ -37,10 +37,11 @@ function subscribePlan(){
             
           },
           success:function(response){
-            if ( response.status === "failed" ) {
-                // ERROR
+            if ( response.result === 1 ) {
+                alert(response.message);
+                $("#selectplan").trigger("click");
             } else {
-                
+                alert(response.message);
             }
           },
           error:function(){

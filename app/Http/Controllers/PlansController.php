@@ -24,14 +24,14 @@ class PlansController extends Controller
             $result = DB::select($query);
             if ( count($result) > 0 ) {
                 foreach ($result as $value) {
-                    if ( isset($plan[$value->product_type]) ) {
+                    if ( isset($plans[$value->product_type]) ) {
                         $plan_details = array(
                                                         'id'              => $value->id,
                                                         'name'            => $value->name,
                                                         'description'     => $value->description,
                                                         'price'           => $value->price
                                                     );
-                        array_push($plans, $plan_details);
+                        array_push($plans[$value->product_type], $plan_details);
                     } else {
                         $plans[$value->product_type][0] = array(
                                                         'id'              => $value->id,
@@ -64,17 +64,31 @@ class PlansController extends Controller
     }
     
     public function subscribe(){
+        $return = array(
+            "result" => config('constants.RESULT_INITIAL'),
+            "message" => ""
+        );
         $plan_id       = Input::get('plan_id');
         $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
         try {
             $query = "SELECT pgc_halo.fn_subscribe_to_plan(?,?) as is_subscribe;";
             $values = array($subscriber_id, $plan_id);
             $result = DB::select($query, $values);
-            $subscription = $result[0];
+            if ( $result[0]->is_subscribe ) {
+                $return = array(
+                        "result" => config('constants.RESULT_SUCCESS'),
+                        "message" => "Successfully Added."
+                    );
+            } else {
+                $return = array(
+                        "result" => config('constants.RESULT_ERROR'),
+                        "message" => ""
+                    );
+            }
         } catch ( Exception $exc ) {
             
         }
-        return json_encode($subscription);
+        return json_encode($return);
     }
     
     public function myPlans(){
@@ -95,7 +109,7 @@ class PlansController extends Controller
                                                         'description'    => $value->description,
                                                         'remaining_mins' => $value->remaining_mins
                                                     );
-                        array_push($myplan, $plan_details);
+                        array_push($myplan[$value->product_type], $plan_details);
                     } else {
                         $myplan[$value->product_type][0] = array(
                                                         'product_id'     => $value->product_id,

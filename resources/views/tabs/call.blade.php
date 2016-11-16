@@ -1,21 +1,18 @@
-<div class="container">
+<div id="div_call" class="container">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 text-center">
-                            <div class="feature">
-                                <h3>Unlimited Call</h3>
+            <div id="div_plan" class="feature">
+                <select id="plan_types" class="form-control" onchange="changeProduct();"></select>
+                <h3 id="plan"></h3>
                                  <img src="{{asset('images/check-circle.png')}}" class="img-responsive gallery-box wow fadeIn" data-wow-delay=".3s">
-                                <p>11 Days Left</p>
+                <p id="remaining_mins"></p>
                             </div>
                         </div>
                     </div>
 
+    <div id="div_speed_dials" class="media wow fadeInRight"></div>
                      <div class="media wow fadeInRight">
-                        <a href="#menu-toggle" class="btn btn-primary dialer" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; 09955505018</font></strong> &nbsp;&nbsp;&nbsp;</a>
-                     </div>
-                      <div class="media wow fadeInRight">
-                        <a href="#confirmationModal" class="btn btn-primary" data-toggle="modal">+ Add another number to plan &nbsp;</a>
+        <a href="#addSpeedDialModal" class="btn btn-primary" data-toggle="modal">+ Add number to this plan &nbsp;</a>
                      </div>
 
 </div>
-
-

@@ -47,7 +47,8 @@ Route::group(['middleware' => 'auth'], function()
         Route::get('api/plan_desc', 'PlansController@getDescription');
         Route::get('api/subscribe', 'PlansController@subscribe');
         Route::get('api/myplans', 'PlansController@myPlans');
-        
+        Route::get('api/get_speed_dials', 'CallController@getSpeedDials');
+        Route::get('api/add_speed_dial', 'CallController@addSpeedDial');
         Route::get('api/getwallet', 'WalletController@getwallet');
 
 
