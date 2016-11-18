@@ -42,44 +42,7 @@
 
                      <div class="col-md-12 bhoechie-tab">
                     <!-- flight section -->
-                        <div class="bhoechie-tab-content active">
-                            <a href="#">
-                                <div class="media-body">
-                                    <div class="col-md-3">
-                                        <img class="media-object img-circle" src="http://mysunrisetravel.com/wp-content/uploads/2015/07/placeholder-profile-male.jpg" style="width: 50px;height:50px;">
-                                    </div>
-                                    <div class="col-md-9">
-                                        <h4 class="pull-left" style="margin-top:0px">09123456789</h4><br>
-                                        <h5 class="text-left"><span class="glyphicon glyphicon-earphone" style="color:#04ff00"></span><strong>&nbsp;&nbsp; Call</strong></h5>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#">
-                                <div class="media-body">
-                                    <div class="col-md-3">
-                                        <img class="media-object img-circle" src="http://mysunrisetravel.com/wp-content/uploads/2015/07/placeholder-profile-male.jpg" style="width: 50px;height:50px;">
-                                    </div>
-                                    <div class="col-md-9">
-                                        <h4 class="pull-left" style="margin-top:0px">09123456789</h4><br>
-                                        <h5 class="text-left"><span class="glyphicon glyphicon-earphone" style="color:#04ff00"></span><strong>&nbsp;&nbsp; Call</strong></h5>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#">
-                                <div class="media-body">
-                                    <div class="col-md-3">
-                                        <img class="media-object img-circle" src="http://mysunrisetravel.com/wp-content/uploads/2015/07/placeholder-profile-male.jpg" style="width: 50px;height:50px;">
-                                    </div>
-                                    <div class="col-md-9">
-                                        <h4 class="pull-left" style="margin-top:0px">09123456789</h4><br>
-                                        <h5 class="text-left"><span class="glyphicon glyphicon-earphone" style="color:#04ff00"></span><strong>&nbsp;&nbsp; Call</strong></h5>
-                                    </div>
-                                </div>
-                            </a>
-
-                        </div>
+                        <div class="bhoechie-tab-content active" id="div_dialed_number"></div>
                         <!-- train section -->
                         <div class="bhoechie-tab-content">
                            <a href="#">

@@ -8,13 +8,7 @@ use Request, Session, DB, Validator, Input, Redirect, Crypt;
 use App\Http\Controllers\Controller;
 use App\Libraries\Common;
 
-class PlansController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+class PlansController extends Controller {
 
     public function index(){
         $plans = array();
@@ -22,12 +16,19 @@ class PlansController extends Controller
         $products = json_decode($json_products);
         if ( $products->resultCode->errorCode === 0 ) {
             foreach ($products->productDefList as $value) {
+                foreach ($value->paramList as $key => $params) {
+                    if ( $params->paramName === "ExpirationPeriod" ) {
+                        $duration = $params->paramValue * 24 * 60 * 60;
+                        break;
+                    }
+                }
                 if ( isset($plans[$value->productType]) ) {
                     $plan_details = array(
                                                     'id'              => $value->productId,
                                                     'name'            => $value->productVariantName,
                                                     'description'     => $value->description,
-                                                    'price'           => $value->productPrice
+                                                    'price'           => $value->productPrice,
+                                                    'duration'        => $duration
                                                 );
                     array_push($plans[$value->productType], $plan_details);
                 } else {
@@ -35,7 +36,8 @@ class PlansController extends Controller
                                                     'id'              => $value->productId,
                                                     'name'            => $value->productVariantName,
                                                     'description'     => $value->description,
-                                                    'price'           => $value->productPrice
+                                                    'price'           => $value->productPrice,
+                                                    'duration'        => $duration
                                                 );
                 }
             }
@@ -44,31 +46,18 @@ class PlansController extends Controller
         return json_encode($plans);
     }
 
-    public function getDescription(){
-        $plan = array();
-        try {
-            $plan_id = Input::get('plan_id');
-            $query = "SELECT * FROM pgc_halo.fn_get_product_desc(?)
-                      RESULT (product_id integer, code varchar, name varchar, description text, price double precision, product_type varchar, call_duration integer, nominations integer, plan_duration integer, status integer);";
-            $values = array($plan_id);
-            $result = DB::select($query, $values);
-            $plan = $result[0];
-        } catch (Exception $exc) {
-            
-        }
-        return json_encode($plan);
-    }
-    
     public function subscribe(){
         $return = array(
             "result" => config('constants.RESULT_INITIAL'),
             "message" => ""
         );
         $plan_id       = Input::get('plan_id');
+        $price    = Input::get('plan_price');
+        $duration = Input::get('plan_duration');
         $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
         try {
-            $query = "SELECT pgc_halo.fn_subscribe_to_plan(?,?) as is_subscribe;";
-            $values = array($subscriber_id, $plan_id);
+            $query = "SELECT pgc_halo.fn_subscribe_to_plan(?,?,?,?) as is_subscribe;";
+            $values = array($subscriber_id, $plan_id, $price, $duration);
             $result = DB::select($query, $values);
             if ( $result[0]->is_subscribe ) {
                 $return = array(
@@ -91,13 +80,11 @@ class PlansController extends Controller
         $myplan = array();
         $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
         
-        try {
-            $query = "SELECT * FROM pgc_halo.fn_get_my_plans(?)
-                      RESULT (product_id integer, code varchar, name varchar, description text, product_type varchar, remaining_mins integer);";
-            $values = array($subscriber_id);
-            $result = DB::select($query, $values);
-            if ( count($result) > 0 ) {
-                foreach ($result as $value) {
+        $json_myproducts = Common::callArcherAPI("http://10.251.14.197:8093/aog/getaccountinfo/anumber/IRB/6328441060/319");
+        $myproducts = json_decode($json_myproducts);
+        $my_products = $myproducts->productList;
+        if ( count($my_products) > 0 ) {
+            foreach ($my_products as $value) {
                     if ( isset($myplan[$value->product_type]) ) {
                         $plan_details = array(
                                                         'product_id'     => $value->product_id,
@@ -116,9 +103,6 @@ class PlansController extends Controller
                     }
                 }
             }
-        } catch (Exception $exc) {
-            
-        }
         return json_encode($myplan);
     }
 }

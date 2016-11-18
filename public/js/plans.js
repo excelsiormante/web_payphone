@@ -1,37 +1,15 @@
-function confirmProduct(plan_id){
-    $.ajax({
-          type: 'GET',
-          url: 'api/plan_desc',
-          dataType: "json",
-          data: {
-              plan_id : plan_id
-          },
-          beforeSend:function(){
-            
-          },
-          success:function(response){
-            if ( response.status === "failed" ) {
-                // ERROR
-            } else {
-              $('#plan_id').val(response.product_id);
-              $('#plan_name').html(response.name);
-              $('#plan_price').html("This will deduct $"+response.price+" to your E-wallet");
-            }
-          },
-          error:function(){
-            
-          }
-    });
-}
-
 function subscribePlan(){
-    var plan_id = $('#plan_id').val();
+    var plan_id       = $('#hid_id').val();
+    var plan_price    = $('#hid_price').val();
+    var plan_duration = $('#hid_duration').val();
     $.ajax({
           type: 'GET',
           url: 'api/subscribe',
           dataType: "json",
           data: {
-              plan_id : plan_id
+              plan_id       : plan_id,
+              plan_price    : plan_price,
+              plan_duration : plan_duration
           },
           beforeSend:function(){
             
@@ -110,8 +88,23 @@ $("#subscribe").click(function(){
           error:function(){
             // failed request; give feedback to user
             $('#subscribe-ajax').html('<p class="error"><strong>Oops!</strong> Try that again in a few moments.</p>');
+          },
+          complete: function(){
+              load_js();
           }
     });
-
-
 });
+
+function load_js(){
+    $(".product_list").click(function(){
+        var product_id = $(this).data("id");
+        var product_name = $(this).data("name");
+        var product_price = $(this).data("price");
+        var product_duration = $(this).data("duration");
+        $('#hid_id').val(product_id);
+        $('#hid_price').val(product_price);
+        $('#hid_duration').val(product_duration);
+        $('#plan_name').html(product_name);
+        $('#plan_price').html("This will deduct $"+product_price+" to your E-wallet");
+    });
+}

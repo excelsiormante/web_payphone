@@ -133,6 +133,7 @@
     <script src="{{ asset('js/mywallet.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
     <script src="{{ asset('js/myplan.js') }}"></script>
+    <script src="{{ asset('js/dialer.js') }}"></script>
    <!-- <script src="{{ asset('js/lib/subscribe-flip.js') }}"></script> -->
 
 
@@ -151,36 +152,49 @@
             $("#tab_dialer").hide();
             $("#tab_selectplan").hide();
 
-            overlay = $('.overlay'),
-
-            //tabs
-            $("#dialer").click(function(){
-                $(".section").fadeOut('slow');
-                $("#tab_dialer").delay(400).fadeIn('slow');
-            });
+            overlay = $('.overlay');
 
             $("#header").click(function(){
                 $(".section").fadeOut('slow');
                 $("#tab_header").delay(400).fadeIn('slow');
             });
 
-            //dialer
-            $('.num').click(function () {
-                var num = $(this);
-                var text = $.trim(num.find('.txt').clone().children().remove().end().text());
-                var telNumber = $('#telNumber');
-                $(telNumber).val(telNumber.val() + text);
-            });
-
-
-            $('.num-delete').click(function () {
-                var str = $('#telNumber').val();
-                $('#telNumber').val(str.substring(0, str.length - 1));
-            });
-
             $("#menu-toggle").click(function(e) {
                 e.preventDefault();
                 $("#wrapper").toggleClass("toggled");
+            });
+
+            $(".hamburger").click(function(){
+                var is_open = $(this).hasClass("is-open");
+                if ( is_open === true ) {
+                    $.ajax({
+                        type     : 'GET',
+                        url      : 'api/getLastDialedNumbers',
+                        dataType : "json",
+                        beforeSend:function(){
+                            
+                        },
+                        success:function(response){
+                            $("#div_dialed_number").empty();
+                            $.each(response, function(key){
+                                $("#div_dialed_number").append('<a href="#">');
+                                $("#div_dialed_number").append('<div class="media-body">');
+                                $("#div_dialed_number").append('<div class="col-md-3">');
+                                $("#div_dialed_number").append('<img class="media-object img-circle" src="http://mysunrisetravel.com/wp-content/uploads/2015/07/placeholder-profile-male.jpg" style="width: 50px;height:50px;">');
+                                $("#div_dialed_number").append('</div>');
+                                $("#div_dialed_number").append('<div class="col-md-9">');
+                                $("#div_dialed_number").append('<h4 class="pull-left" style="margin-top:0px">'+response[key].number+'</h4><br>');
+                                $("#div_dialed_number").append('<h5 class="text-left"><span class="glyphicon glyphicon-earphone" style="color:#04ff00"></span><strong>&nbsp;&nbsp; Call</strong></h5>');
+                                $("#div_dialed_number").append('</div>');
+                                $("#div_dialed_number").append('</div>');
+                                $("#div_dialed_number").append('</a>');
+                            });
+                        },
+                        error:function(){
+
+                        }
+                    });
+                }
             });
 
         });
