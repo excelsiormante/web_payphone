@@ -66,9 +66,12 @@ $("#subscribe").click(function(){
                     htmlstring = htmlstring + '<header class="pricing-header"><h2>'+group+'</h2></header>';
 
                    $.each(response[group], function(products){
-
+                        var product_id       = response[group][products]['id'];
+                        var product_name     = response[group][products]['name'];
+                        var product_price    = response[group][products]['price'];
+                        var product_duration = response[group][products]['duration'];
                         //htmlstring = htmlstring +'<div class="media wow fadeInRight">';
-                        htmlstring = htmlstring +'<a href="#confirmationModal" class="btn btn-primary" data-toggle="modal" onclick="confirmProduct('+response[group][products]['id']+')">'+response[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+response[group][products]['price']+'</strong></a>';
+                        htmlstring = htmlstring +'<a data-id="'+product_id+'" data-name="'+product_name+'" data-price="'+product_price+'" data-duration="'+product_duration+'" href="#confirmationModal" class="btn btn-primary product_list" data-toggle="modal">'+response[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+response[group][products]['price']+'</strong></a>';
                         //htmlstring = htmlstring +'</div>'; 
                     }); 
 
