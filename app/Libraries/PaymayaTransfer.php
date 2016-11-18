@@ -21,8 +21,7 @@ class PaymayaTransfer
 
     $ch = curl_init();
 
-    curl_setopt($ch, CURLOPT_URL, "https://api.paymaya.com/sandbox/mi3/transfers
-    ");
+    curl_setopt($ch, CURLOPT_URL, "https://api.paymaya.com/sandbox/mi3/transfers");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
@@ -34,7 +33,7 @@ class PaymayaTransfer
         \"value\": \"+639420189396\"
       },
       \"amount\": {
-        \"currency\": \"PHP\",
+        \"currency\": \"USD\",
         \"value\": 100
       },
       \"note\": \"Thanks!\"
@@ -49,7 +48,7 @@ class PaymayaTransfer
     $response = curl_exec($ch);
     curl_close($ch);
 
-    var_dump($response);
+    dd($response);
 
 
   }

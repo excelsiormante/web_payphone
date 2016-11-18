@@ -13,10 +13,12 @@
     <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/simple-sidebar.css')}}" rel="stylesheet">
     <link href="{{ asset('css/loading.css')}}" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('css/subscribe-flip.css')}}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 
   </head>
   <body>
-
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -56,7 +58,7 @@
             </div>
         </div>
 
-        <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+        <button type="button" class="hamburger is-open" data-toggle="offcanvas">
                             <span class="hamb-top"></span>
                             <span class="hamb-middle"></span>
                             <span class="hamb-bottom"></span>
@@ -131,11 +133,18 @@
     <script src="{{ asset('js/mywallet.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
     <script src="{{ asset('js/myplan.js') }}"></script>
+   <!-- <script src="{{ asset('js/lib/subscribe-flip.js') }}"></script> -->
 
 
         <!-- Custom Theme JavaScript -->
     <script type="text/javascript">
         $(document).ready(function(){
+
+            //$('.navigate').click(function() {
+                //$('body').css('background-image', 'url(images/bg-01.jpg)');
+              //  $('body').addClass("bg-02");
+              //});
+
             $("#tab_subscribe").hide();
             $("#tab_ewallet").hide();
             $("#tab_call").hide();

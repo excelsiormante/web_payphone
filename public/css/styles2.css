@@ -592,6 +592,10 @@ img::-moz-selection {
 
 
 
+/*-------------------------------*/
+/*            Numpad             */
+/*-------------------------------*/
+
 .span4
 {
     width: 60px;
@@ -807,3 +811,5 @@ img::-moz-selection {
   margin-top: -50px;
   margin-left: -100px;
 }
+
+

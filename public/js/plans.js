@@ -67,19 +67,44 @@ $("#subscribe").click(function(){
                 // ERROR
             } else {
                 // successful request; do something with the data
-                overlay.delay(500).fadeOut('fast');
+                
                 $('#div_products').empty();
+                $('#plangroup').empty();
+
+                var countgroup = 0;
                 $.each(response, function(group){
-                    $('#div_products').append('<div class="col-lg-12 col-md-12 text-center">');
-                    $('#div_products').append('<h3>'+group+'</h3>');
-                    $.each(response[group], function(products){
-                        $('#div_products').append('<div');
-                        $('#div_products').append('<div class="media wow fadeInRight">');
-                        $('#div_products').append('<a href="#confirmationModal" class="btn btn-primary" data-toggle="modal" onclick="confirmProduct('+response[group][products]['id']+')">'+response[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+response[group][products]['price']+'</strong></a>');
-                        $('#div_products').append('</div>');
-                    });
-                    $('#div_products').append('</div><hr>');
+                    var htmlstring = '';
+                    var grouplabel = '';
+                    
+                    if(countgroup == 0){
+                      htmlstring = htmlstring + '<li data-type="'+group+'" class="is-visible">';
+                      grouplabel = '<input type="radio" name="duration-1" value="'+group+'" id="'+group+'-1" checked><label for="'+group+'-1">'+group+'</label>';
+                      countgroup = 1;
+                    }else{
+                      htmlstring = htmlstring + '<li data-type="'+group+'" class="is-hidden">';
+                      grouplabel = '<input type="radio" name="duration-1" value="'+group+'" id="'+group+'-1"><label for="'+group+'-1">'+group+'</label>';
+                    }
+
+                    htmlstring = htmlstring + '<header class="pricing-header"><h2>'+group+'</h2></header>';
+
+                   $.each(response[group], function(products){
+
+                        //htmlstring = htmlstring +'<div class="media wow fadeInRight">';
+                        htmlstring = htmlstring +'<a href="#confirmationModal" class="btn btn-primary" data-toggle="modal" onclick="confirmProduct('+response[group][products]['id']+')">'+response[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+response[group][products]['price']+'</strong></a>';
+                        //htmlstring = htmlstring +'</div>'; 
+                    }); 
+
+                    htmlstring = htmlstring + '</li>' ;
+
+                    $('#div_products').append(htmlstring);
+                    $('#plangroup').append(grouplabel);
                 });
+
+                //load subscribe flip after loading html tags               
+                $.getScript("js/lib/subscribe-flip.js");
+
+                overlay.delay(500).fadeOut('fast');
+
             }
           },
           error:function(){
@@ -87,4 +112,6 @@ $("#subscribe").click(function(){
             $('#subscribe-ajax').html('<p class="error"><strong>Oops!</strong> Try that again in a few moments.</p>');
           }
     });
+
+
 });
