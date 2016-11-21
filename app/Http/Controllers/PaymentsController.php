@@ -41,6 +41,9 @@ class PaymentsController extends Controller
             ]
         ];
 
+        if ( config("constants.SERVER") === "development" ) {
+            $transaction_id = rand(10000, 99999);
+        }
         $data['invoice_id'] = $transaction_id;
         $data['invoice_description'] = "Order #".$data['invoice_id']."Invoice";
         $data['return_url'] = url('paypal/success');

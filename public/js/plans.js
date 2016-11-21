@@ -93,12 +93,12 @@ $("#subscribe").click(function(){
             $('#subscribe-ajax').html('<p class="error"><strong>Oops!</strong> Try that again in a few moments.</p>');
           },
           complete: function(){
-              load_js();
+              load_plan_js();
           }
     });
 });
 
-function load_js(){
+function load_plan_js(){
     $(".product_list").click(function(){
         var product_id = $(this).data("id");
         var product_name = $(this).data("name");

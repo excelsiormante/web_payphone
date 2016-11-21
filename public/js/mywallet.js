@@ -22,18 +22,20 @@ $("#ewallet").click(function(){
           },
           error:function(){
 
+          },
+          complete:function(){
+              load_wallet_js();
           }
     });
 });
-
-$(document).ready(function(){
-    $('#btnpaypal').removeProp('data-dismiss');
-    $('#btnpaypal').prop('href', '#');
-    $('#btnpaymaya').removeProp('data-dismiss');
-    $('#btnpaymaya').prop('href', '#'); 
-});
-
-
+function load_wallet_js(){
+    $(document).ready(function(){
+        $('#btnpaypal').removeProp('data-dismiss');
+        $('#btnpaypal').prop('href', '#');
+        $('#btnpaymaya').removeProp('data-dismiss');
+        $('#btnpaymaya').prop('href', '#'); 
+    });
+    
 $('#amount').keyup(function(){
     var amount = $('#amount').val();
     if(amount <= 0 || amount == '' || amount == null) {   
@@ -51,4 +53,5 @@ $('.btnpayment').click(function(){
     if($('#amount').val() <= 0 || $('#amount').val() == '' || $('#amount').val() == null) {
         alert('Please enter valid amount!');
     }
-});
+    });
+}
