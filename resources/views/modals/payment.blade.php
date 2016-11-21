@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-2"></div>
 
-                    <a href="#"  aria-hidden="true" id="btnpaypal">
+                    <a href="{{url('paypal/set')}}"  aria-hidden="true" id="btnpaypal">
                         <div class="col-md-4 btnpayment" style="padding-left: 0px;  padding-right: 0px; height:50px; width:150px;">
                             <img src="{{asset('images/paypal.png')}}" class="img-responsive">
                         </div>
