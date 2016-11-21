@@ -19,6 +19,7 @@
 
   </head>
   <body>
+    <div class="shadow"></div>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -83,28 +84,28 @@
         </section>
 
 
-        <section id="tab_subscribe" class="bg-04 section">
+        <section id="tab_subscribe" class="section">
 
                 @include('tabs.subscribe')
         </section>
 
 
-        <section id="tab_selectplan" class="bg-01 section">
+        <section id="tab_selectplan" class="section">
 
                 @include('tabs.selectplan')
         </section>
 
-        <section id="tab_dialer" class="bg-02 section">
+        <section id="tab_dialer" class="section">
 
                 @include('tabs.dialer')
         </section>
 
-        <section id="tab_call" class="bg-05 section">
+        <section id="tab_call" class="section">
 
                 @include('tabs.call')
         </section>
 
-        <section id="tab_ewallet" class="bg-03 section">
+        <section id="tab_ewallet" class="section">
 
                 @include('tabs.ewallet')
 
@@ -118,6 +119,7 @@
         <div class="cssload-loader"><div class="cssload-inner cssload-one"></div><div class="cssload-inner cssload-two"></div><div class="cssload-inner cssload-three"></div></div>
         </div>
     </div>
+    <div class="dark-fade"></div>
 
     @endsection
    
@@ -140,11 +142,17 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
-            //$('.navigate').click(function() {
+            $('.navigate').click(function() {
                 //$('body').css('background-image', 'url(images/bg-01.jpg)');
-              //  $('body').addClass("bg-02");
-              //});
+                var num = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
+                //$('.dark_fade').delay(500).fadeIn('fast');
+                $('body').removeClass('bg-01 bg-02 bg-03 bg-04 bg-05 bg-06');
+                $('body').addClass("bg-0"+num+"");
+                //$('.dark-fade').fadeOut('fast');
 
+              });  
+
+            $("#dark_fade").hide();
             $("#tab_subscribe").hide();
             $("#tab_ewallet").hide();
             $("#tab_call").hide();

@@ -67,7 +67,7 @@ $("#subscribe").click(function(){
                 // ERROR
             } else {
                 // successful request; do something with the data
-                
+                overlay.delay(500).fadeOut('fast');
                 $('#div_products').empty();
                 $('#plangroup').empty();
 
@@ -103,7 +103,7 @@ $("#subscribe").click(function(){
                 //load subscribe flip after loading html tags               
                 $.getScript("js/lib/subscribe-flip.js");
 
-                overlay.delay(500).fadeOut('fast');
+                
 
             }
           },
