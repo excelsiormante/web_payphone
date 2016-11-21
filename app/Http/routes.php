@@ -50,6 +50,8 @@ Route::group(['middleware' => 'auth'], function()
         Route::get('api/get_speed_dials', 'CallController@getSpeedDials');
         Route::get('api/add_speed_dial', 'CallController@addSpeedDial');
         Route::get('api/getwallet', 'WalletController@getwallet');
-
-
+        Route::get('api/getLastDialedNumbers', 'CallController@getLastDialedNumbers');
+        Route::get('api/dialCall', 'CallController@dialCall');
+        Route::get('api/startCall', 'CallController@startCall');
+        Route::get('api/endCall', 'CallController@endCall');
 }); 

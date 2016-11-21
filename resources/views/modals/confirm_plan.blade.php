@@ -14,5 +14,7 @@
         	</div>
         </div>
         </div>
-     <input type="hidden" id="plan_id"/>
+     <input type="hidden" id="hid_id"/>
+     <input type="hidden" id="hid_duration"/>
+     <input type="hidden" id="hid_price"/>
     </div>

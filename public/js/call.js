@@ -58,6 +58,7 @@ function generateCallPage(product_id){
             overlay.delay(500).fadeOut('fast');
             if ( response['plans'] === false ) {
                 alert("No available plan.");
+                $("#subscribe").trigger("click");
             } else {
                 
                 $("#plan").html(response['selected_plan'].name);

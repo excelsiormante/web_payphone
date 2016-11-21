@@ -135,6 +135,7 @@
     <script src="{{ asset('js/mywallet.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
     <script src="{{ asset('js/myplan.js') }}"></script>
+    <script src="{{ asset('js/dialer.js') }}"></script>
    <!-- <script src="{{ asset('js/lib/subscribe-flip.js') }}"></script> -->
 
 
@@ -159,31 +160,11 @@
             $("#tab_dialer").hide();
             $("#tab_selectplan").hide();
 
-            overlay = $('.overlay'),
-
-            //tabs
-            $("#dialer").click(function(){
-                $(".section").fadeOut('slow');
-                $("#tab_dialer").delay(400).fadeIn('slow');
-            });
+            overlay = $('.overlay');
 
             $("#header").click(function(){
                 $(".section").fadeOut('slow');
                 $("#tab_header").delay(400).fadeIn('slow');
-            });
-
-            //dialer
-            $('.num').click(function () {
-                var num = $(this);
-                var text = $.trim(num.find('.txt').clone().children().remove().end().text());
-                var telNumber = $('#telNumber');
-                $(telNumber).val(telNumber.val() + text);
-            });
-
-
-            $('.num-delete').click(function () {
-                var str = $('#telNumber').val();
-                $('#telNumber').val(str.substring(0, str.length - 1));
             });
 
             $("#menu-toggle").click(function(e) {
