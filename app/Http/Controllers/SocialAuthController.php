@@ -29,6 +29,6 @@ class SocialAuthController extends Controller
         Session::put('email', $user->email);
 
         
-        return redirect()->to('/');
+        return redirect()->to('app');
     }
 }   

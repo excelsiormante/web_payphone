@@ -1,5 +1,5 @@
   
-@extends('layouts.master')
+@extends('layouts.login-layout')
 
 @section('content')
   <!--login-->

@@ -24,7 +24,7 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-    private $redirectTo = '/';
+    private $redirectTo = 'app';
 
     /**
      * Create a new authentication controller instance.
@@ -55,7 +55,7 @@ class AuthController extends Controller
             Session::put('name', $user->name);
             Session::put('email', $user->email_address);
 
-            return redirect()->intended('/');
+            return redirect()->intended('app');
         } else {
             return redirect('auth/login');
         }

@@ -12,6 +12,10 @@
 */
 
 
+
+Route::get('/', 'HomeController@showLanding');
+
+
 // Authentication routes...
 Route::get('auth/login', 'HomeController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@authenticate');
@@ -34,7 +38,7 @@ Route::group(['middleware' => 'auth'], function()
 {   
 	
 
-	Route::get('/', 'HomeController@showDashboard');
+	Route::get('app', 'HomeController@showDashboard');
 	Route::get('paypal/set/{amount}', 'PaymentsController@PaypalExpressCheckout');
 	Route::get('paypal/success', 'PaymentsController@PaypaldoExpressCheckoutPayment');
 

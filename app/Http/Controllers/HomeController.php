@@ -61,5 +61,10 @@ class HomeController extends Controller
         ->with('balance', $balance);
     }
 
+    public function showLanding()
+    {
+        return view('landing');
+    }
+
  
 }
