@@ -31,17 +31,8 @@ $(document).ready(function () {
         success:function(response){
             $("#div_dialed_number").empty();
             $.each(response, function(key){
-                $("#div_dialed_number").append('<a href="#">');
-                $("#div_dialed_number").append('<div class="media-body">');
-                $("#div_dialed_number").append('<div class="col-md-3">');
-                $("#div_dialed_number").append('<img class="media-object img-circle" src="http://mysunrisetravel.com/wp-content/uploads/2015/07/placeholder-profile-male.jpg" style="width: 50px;height:50px;">');
-                $("#div_dialed_number").append('</div>');
-                $("#div_dialed_number").append('<div class="col-md-9">');
-                $("#div_dialed_number").append('<h4 class="pull-left" style="margin-top:0px">'+response[key].number+'</h4><br>');
-                $("#div_dialed_number").append('<h5 class="text-left"><span class="glyphicon glyphicon-earphone" style="color:#04ff00"></span><strong>&nbsp;&nbsp; Call</strong></h5>');
-                $("#div_dialed_number").append('</div>');
-                $("#div_dialed_number").append('</div>');
-                $("#div_dialed_number").append('</a>');
+                var html = '<a href="#"><div class="media-body"><div class="col-md-3"><img class="media-object img-circle" src="http://mysunrisetravel.com/wp-content/uploads/2015/07/placeholder-profile-male.jpg" style="width: 50px;height:50px;"></div><div class="col-md-9"><h4 class="pull-left" style="margin-top:0px">'+response[key].number+'</h4><br><h5 class="text-left"><span class="glyphicon glyphicon-earphone" style="color:#04ff00"></span><strong>&nbsp;&nbsp; Call</strong></h5></div></div></a>';
+                $("#div_dialed_number").html(html);
             });
         },
         error:function(){

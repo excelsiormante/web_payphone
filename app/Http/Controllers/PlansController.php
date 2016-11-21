@@ -67,7 +67,7 @@ class PlansController extends Controller {
             } else {
                 $return = array(
                         "result" => config('constants.RESULT_ERROR'),
-                        "message" => ""
+                        "message" => "Insufficient Wallet."
                     );
             }
         } catch ( Exception $exc ) {
