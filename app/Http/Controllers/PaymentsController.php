@@ -41,12 +41,7 @@ class PaymentsController extends Controller
             ]
         ];
 
-        if ( config("constants.SERVER") === "development" ) {
-            $data['invoice_id'] = rand(100000, 999999);
-        } else {
         $data['invoice_id'] = $transaction_id;
-        }
-        
         $data['invoice_description'] = "Order #".$data['invoice_id']."Invoice";
         $data['return_url'] = url('paypal/success');
         $data['cancel_url'] = url('/');
@@ -83,17 +78,18 @@ class PaymentsController extends Controller
         //execute express checkout payment
         $response = $provider->doExpressCheckoutPayment($trans_data, $input['token'], $input['PayerID']);
         //$response = $provider->getExpressCheckoutDetails($token);
+        
+        $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
         if ( $response['ACK'] === "Success" ) {
-            $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
-            $upd_trans_values = array($trans_data['invoice_id'], config('constants.RESULT_SUCCESS'), $response['CORRELATIONID'], $response['PAYMENTINFO_0_ERRORCODE']);
-            DB::select($upd_trans_query, $upd_trans_values);
-            $return = redirect('/app');
+            $result = config('constants.RESULT_SUCCESS');
+            $payment_result = $response['PAYMENTINFO_0_ERRORCODE'];
         } else {
-            $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
-            $upd_trans_values = array($trans_data['invoice_id'], config('constants.RESULT_ERROR'), $response['CORRELATIONID'], $response['L_ERRORCODE0']);
-            DB::select($upd_trans_query, $upd_trans_values);
-            $return = redirect('/app');
+            $result = config('constants.RESULT_ERROR');
+            $payment_result = $response['L_ERRORCODE0'];
         }
+        $upd_trans_values = array($trans_data['invoice_id'], $result, $response['CORRELATIONID'], $payment_result);
+        DB::select($upd_trans_query, $upd_trans_values);
+        $return = redirect('/app');
         return $return;
     }
 
@@ -112,7 +108,7 @@ class PaymentsController extends Controller
         dd(Request::all());
     }
 
-
+ 
 
     public function PaymayaTransfer()
     {
