@@ -42,9 +42,11 @@ class PaymentsController extends Controller
         ];
 
         if ( config("constants.SERVER") === "development" ) {
-            $transaction_id = rand(10000, 99999);
-        }
+            $data['invoice_id'] = rand(100000, 999999);
+        } else {
         $data['invoice_id'] = $transaction_id;
+        }
+        
         $data['invoice_description'] = "Order #".$data['invoice_id']."Invoice";
         $data['return_url'] = url('paypal/success');
         $data['cancel_url'] = url('/');
@@ -85,12 +87,12 @@ class PaymentsController extends Controller
             $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
             $upd_trans_values = array($trans_data['invoice_id'], config('constants.RESULT_SUCCESS'), $response['CORRELATIONID'], $response['PAYMENTINFO_0_ERRORCODE']);
             DB::select($upd_trans_query, $upd_trans_values);
-            $return = redirect('/');
+            $return = redirect('/app');
         } else {
             $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
             $upd_trans_values = array($trans_data['invoice_id'], config('constants.RESULT_ERROR'), $response['CORRELATIONID'], $response['L_ERRORCODE0']);
             DB::select($upd_trans_query, $upd_trans_values);
-            $return = redirect('/');
+            $return = redirect('/app');
         }
         return $return;
     }
