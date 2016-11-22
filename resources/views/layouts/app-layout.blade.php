@@ -169,57 +169,60 @@
                 <!-- Edit profile tab -->
                 <div class="col-md-12 profile-form">
                     <div class="row">
+                        <a href="#" class="btn btn-primary pull-right" style="border:0px; font-size:14px;" id="return-contacts"><span class="fa fa-arrow-left fa-2x"></span></a>
                         <div class="col-md-12">
-
                             <h4 class="page-header" style="margin-top:0px">Profile</h4>
-                            <form role="form">
+                            <form role="form" id="formprofile">
                                 <div class="form-group float-label-control">
                                     <label for="">First Name</label>
-                                    <input type="text" class="form-control" placeholder="First Name" required>
+                                    <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
                                 </div>
                                 <div class="form-group float-label-control">
                                     <label for="">Middle Name</label>
-                                    <input type="text" class="form-control" placeholder="Middle Name" required>
+                                    <input type="text" class="form-control" name="middlename" placeholder="Middle Name" required>
                                 </div>
                                 <div class="form-group float-label-control">
                                     <label for="">Last Name</label>
-                                    <input type="text" class="form-control" placeholder="Last Name" required>
+                                    <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
                                 </div>
                                 <div class="form-group float-label-control">
                                     <label for="">Gender</label>
                                         <div class="radio">
-                                          <label class="radio-inline"><input type="radio" name="optradio" required>Male</label>
+                                          <label class="radio-inline"><input type="radio" name="gender" value="male" required>Male</label>
                                         </div>
                                         <div class="radio">
-                                          <label class="radio-inline"><input type="radio" name="optradio" required>Female</label>
+                                          <label class="radio-inline"><input type="radio" name="gender" value="female" required>Female</label>
                                         </div>
                                 </div>
                                 <div class="form-group float-label-control">
                                     <label for="">Birth Date</label>
-                                    <input type="text" class="form-control" placeholder="Birthdate" required>
+                                    <input type="text" class="form-control" name="birthdate" placeholder="Birthdate" required>
                                 </div>
 
                                 <div class="form-group float-label-control">
                                     <label for="">Address</label>
-                                    <input type="text" class="form-control" placeholder="Address" required>
+                                    <input type="text" class="form-control" name="address" placeholder="Address" required>
                                 </div>
 
                                 <div class="form-group float-label-control">
                                     <label for="">City</label>
-                                    <input type="text" class="form-control" placeholder="City" required>
+                                    <input type="text" class="form-control" name="city" placeholder="City" required>
                                 </div>
                                 <div class="form-group float-label-control">
                                     <label for="">State</label>
-                                    <input type="text" class="form-control" placeholder="State" required>
+                                    <input type="text" class="form-control" name="state" placeholder="State" required>
                                 </div>    
                                 <div class="form-group float-label-control">
                                     <label for="">Postal Code</label>
-                                    <input type="text" class="form-control" placeholder="Postal Code" required>
+                                    <input type="text" class="form-control" name="postal" placeholder="Postal Code" required>
                                 </div>
                                 <div class="form-group float-label-control">
                                     <label for="">Country</label>
-                                    <select class="form-control" id="country" required></select>
+                                    <select class="form-control" id="country" name="country" required></select>
                                 </div>
+
+                                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+
                             </form>
                         </div>
                     </div>
@@ -256,6 +259,7 @@
     <script src="{{ asset('js/plans.js') }}"></script>
     <script src="{{ asset('js/myplan.js') }}"></script>
     <script src="{{ asset('js/dialer.js') }}"></script>
+    <script src="{{ asset('js/profile.js') }}"></script>
    <!-- <script src="{{ asset('js/lib/subscribe-flip.js') }}"></script> -->
 
 
@@ -285,13 +289,17 @@
             $("#tab_dialer").hide();
             $("#tab_selectplan").hide();
 
-
+            //sidebar profile
             $('#profile-edit').click(function(){
                 $(".bhoechie-tab-container").delay(50).fadeOut('fast');
                 $(".profile-form").delay(50).fadeIn('fast');
             });
 
-           
+            //sidebar contacts
+            $('#return-contacts').click(function(){
+                $(".profile-form").delay(50).fadeOut('fast');
+                $(".bhoechie-tab-container").delay(50).fadeIn('fast');
+            });
 
             overlay = $('.overlay');
 
@@ -299,12 +307,13 @@
                 
             });
 
+            //toggle sidebar
             $("#menu-toggle").click(function(e) {
                 e.preventDefault();
                 $("#wrapper").toggleClass("toggled");
             });
 
-        
+            //trigger subscribe click event on login success
             $( "#subscribe" ).trigger( "click" );            
 
         });
