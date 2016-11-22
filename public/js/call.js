@@ -46,9 +46,6 @@ function generateCallPage(product_id){
           type: 'GET',
           url: 'api/get_speed_dials',
           dataType : "json",
-          data: {
-              product_id : product_id
-          },
           beforeSend:function(){
             // this is where we append a loading image
             $('#div_call').hide();
@@ -56,38 +53,62 @@ function generateCallPage(product_id){
           },
           success:function(response){
             overlay.delay(500).fadeOut('fast');
-            if ( response['plans'] === false ) {
-                alert("No available plan.");
-                $("#subscribe").trigger("click");
+            if ( response.result === 2 ) {
+                alert(response.message);
             } else {
-                
-                $("#plan").html(response['selected_plan'].name);
-                $("#remaining_mins").html(response['selected_plan'].remaining_mins + " Minutes Left");
-                $("#plan_types").empty();
-                $.each(response['plans'], function(plan){
-                    var plan_details = response['plans'][plan];
+                if ( response.data.length === 0 ) {
+                    alert("No available plan.");
+                    $("#subscribe").trigger("click");
+                } else {
+                    var data = response.data;
+                    
                     if ( typeof product_id == "undefined" ) {
-                        $("#plan_types").append("<option value='"+plan_details.product_id+"'>"+plan_details.product_type+"</option>");
-                    } else {
-                        if ( product_id == plan_details.product_id ) {
-                            $("#plan_types").append("<option value='"+plan_details.product_id+"' selected>"+plan_details.product_type+"</option>");
-                        } else {
-                            $("#plan_types").append("<option value='"+plan_details.product_id+"'>"+plan_details.product_type+"</option>");
+                        $("#plan").html(data[0]['product_type']);
+                        $("#remaining_mins").html(data[0]['remain_days'] + " days left.");
+                        
+                        $("#div_speed_dials").empty();
+                        var numbers = data[0]['numbers'];
+                        if ( numbers.length > 0 ) {
+                            $.each(numbers, function(key){
+                                var number = numbers[key];
+                                $("#div_speed_dials").append('<a href="#" class="btn btn-primary dialer" onclick="call('+number+')" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; '+number+'</font></strong> &nbsp;&nbsp;&nbsp;</a></br>');
+                            });
                         }
                     }
-                });
-                $("#div_speed_dials").empty();
-                if ( response['speed_dials'] !== false ) {
-                    $.each(response['speed_dials'], function(speed_dials){
-                        var number = response['speed_dials'][speed_dials].bnumber;
-                        $("#div_speed_dials").append('<a href="#" class="btn btn-primary dialer" onclick="call('+number+')" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; '+number+'</font></strong> &nbsp;&nbsp;&nbsp;</a></br>');
+                    
+                    $("#plan_types").empty();
+                    $.each(data, function(key){
+                        var plan = data[key];
+                        
+                        if ( typeof product_id == "undefined" ) {
+                            $("#plan_types").append("<option value='"+plan.product_id+"'>"+plan.product_type+"</option>");
+                        } else {
+                            if ( product_id == plan.product_id ) {
+                                $("#plan_types").append("<option value='"+plan.product_id+"' selected>"+plan.product_type+"</option>");
+                                $("#plan").html(data[key]['product_type']);
+                                $("#remaining_mins").html(data[key]['remain_days'] + " days left.");
+
+                                $("#div_speed_dials").empty();
+                                var numbers = data[key]['numbers'];
+                                if ( numbers.length > 0 ) {
+                                    $.each(numbers, function(item){
+                                        var number = numbers[item];
+                                        $("#div_speed_dials").append('<a href="#" class="btn btn-primary dialer" onclick="call('+number+')" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; '+number+'</font></strong> &nbsp;&nbsp;&nbsp;</a></br>');
+                                    });
+                                }
+                            } else {
+                                $("#plan_types").append("<option value='"+plan.product_id+"'>"+plan.product_type+"</option>");
+                            }
+                        }
                     });
                 }
-                $('#div_call').show();
             }
           },
           error:function(){
 
+          },
+          complete:function(){
+            $('#div_call').show();
           }
     });
 }

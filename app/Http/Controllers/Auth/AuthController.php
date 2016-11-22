@@ -54,6 +54,7 @@ class AuthController extends Controller
             Session::put('subscriber_id', Crypt::encrypt($user->id));
             Session::put('name', $user->name);
             Session::put('email', $user->email_address);
+            Session::put('archer_account_id',$user->archer_account_id);
 
             return redirect()->intended('app');
         } else {
