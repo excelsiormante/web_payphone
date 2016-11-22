@@ -1,10 +1,11 @@
 function addSpeedDial(){
+    var product_id =  $("#plan_types").val();
     $.ajax({
           type: 'GET',
           url: 'api/add_speed_dial',
           dataType: "json",
           data: {
-              product_id        : $("#plan_types").val(),
+              product_id        : product_id,
               speed_dial_number : $("#speed_dial_number").val()
           },
           beforeSend:function(){

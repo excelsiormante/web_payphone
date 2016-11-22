@@ -32,8 +32,20 @@ class AccountController extends Controller {
         
         if ( $result[0]->is_kyc === TRUE ) {
             Session::put('archer_account_id',$post_data['mobileno']);
+            $response = array("message" => "You successfully edited your profile.");
         } else {
-            
+            $response = array("message" => "Edit profile failed.");
         }
+        return json_encode($response);
+    }
+    
+    public function get_profile(){
+        $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
+        $query = "SELECT * FROM pgc_halo.fn_get_subscriber_desc(?)
+                  RESULT (subscriber_id integer, firstname character varying, middlename character varying, lastname character varying, gender character varying, birthday date, address character varying, city character varying,state character varying,postal_code character varying,country  character varying,archer_account_id character varying);";
+        
+        $values = array($subscriber_id);
+        $result = DB::select($query,$values);
+        return json_encode($result[0]);
     }
 }

@@ -270,7 +270,7 @@
         <!-- Custom Theme JavaScript -->
     <script type="text/javascript">
         $(document).ready(function(){
-
+            
             $('.navigate').click(function() {
                 //$('body').css('background-image', 'url(images/bg-01.jpg)');
                 var num = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
@@ -292,12 +292,6 @@
             $("#tab_call").hide();
             $("#tab_dialer").hide();
             $("#tab_selectplan").hide();
-
-            //sidebar profile
-            $('#profile-edit').click(function(){
-                $(".bhoechie-tab-container").delay(50).fadeOut('fast');
-                $(".profile-form").delay(50).fadeIn('fast');
-            });
 
             //sidebar contacts
             $('#return-contacts').click(function(){
