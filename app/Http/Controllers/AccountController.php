@@ -11,7 +11,7 @@ use App\Libraries\Common;
 class AccountController extends Controller {
     public function edit_profile(){
         $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
-        $archer_account_id = "6328441060";
+        $post_data['mobileno'] = "6328441060";
         $post_data = Input::get();
         $query = "SELECT pgc_halo.fn_register_subscriber(?,?,?,?,?,?,?,?,?,?,?,?) as is_kyc;";
         $values = array(
@@ -25,13 +25,13 @@ class AccountController extends Controller {
                     $post_data['state'],
                     $post_data['postal'],
                     $post_data['country'],
-                    $archer_account_id,
+                    $post_data['mobileno'],
                     $subscriber_id
                 );
         $result = DB::select($query,$values);
         
-        if ( $result[0]->fn_register_subscriber === TRUE ) {
-            Session::put('archer_account_id',$archer_account_id);
+        if ( $result[0]->is_kyc === TRUE ) {
+            Session::put('archer_account_id',$post_data['mobileno']);
         } else {
             
         }

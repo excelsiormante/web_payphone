@@ -12,8 +12,8 @@ class CallController extends Controller {
     
     public function getSpeedDials(){
         $my_plans = array();
+        $subscriber_id     = Crypt::decrypt(Session::get('subscriber_id'));
         $archer_account_id = Session::get('archer_account_id');
-
         $json_myproducts = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/getaccountinfo/anumber/"
                                                 .config("constants.ARCHER_INSTANCE")."/"
                                                 .$archer_account_id."/"
@@ -24,10 +24,15 @@ class CallController extends Controller {
             $my_products = $myproducts->productList;
             if ( count($my_products) > 0 ) {
                 foreach ($my_products as $value) {
+                    $query = "  SELECT * FROM pgc_halo.fn_get_my_speed_dials(?,?)
+                                RESULT (dial_id integer, numpad varchar, bnumber varchar);";
+                    $query_value = array($subscriber_id, $value->productId);
+                    $numbers = DB::select($query, $query_value);
                     $plans = array(
                                 "product_type" => $value->productType,
                                 "product_id"   => $value->productId,
-                                "numbers"      => $value->provisionedBNumbers,
+//                                "numbers"      => $value->provisionedBNumbers,
+                                "numbers"      => $numbers,
                                 "remain_days"  => $value->validityDays
                             );
                     array_push($my_plans, $plans);
