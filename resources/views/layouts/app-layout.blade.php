@@ -80,13 +80,20 @@
                                 <h4 class="media-heading"><?php echo $fullname;  ?></h4>
                                 <h5>E-Wallet Balance<br><strong><font color="#04ff00">$<?php echo $balance; ?></font></strong></h5>
                                 <hr style="margin:8px auto">
-
-                                <a class="btn btn-primary" href="{{url('auth/logout')}}">Logout</a>
+                                <div class="col-md-6">
+                                    <a class="btn btn-primary" href="#" id="profile-edit" style="font-size:10px">Edit Profile</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a class="btn btn-primary" href="{{url('auth/logout')}}" style="font-size:10px">Logout</a>
+                                </div>
+                                
+                                
 
                             </div>
                         </div>
                 </div>
 
+                 <!-- Contacts, Dial and recent -->
                  <div class="col-md-12 text-center bhoechie-tab-container">
 
                     <div class="list-group list-group-horizontal bhoechie-tab-menu">
@@ -110,9 +117,9 @@
 
 
                      <div class="col-md-12 bhoechie-tab">
-                    <!-- flight section -->
+            
                         <div class="bhoechie-tab-content active" id="div_dialed_number"></div>
-                        <!-- train section -->
+            
                         <div class="bhoechie-tab-content">
                            <a href="#">
                                 <div class="media-body">
@@ -159,6 +166,66 @@
 
                 </div>
 
+                <!-- Edit profile tab -->
+                <div class="col-md-12 profile-form">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <h4 class="page-header" style="margin-top:0px">Profile</h4>
+                            <form role="form">
+                                <div class="form-group float-label-control">
+                                    <label for="">First Name</label>
+                                    <input type="text" class="form-control" placeholder="First Name" required>
+                                </div>
+                                <div class="form-group float-label-control">
+                                    <label for="">Middle Name</label>
+                                    <input type="text" class="form-control" placeholder="Middle Name" required>
+                                </div>
+                                <div class="form-group float-label-control">
+                                    <label for="">Last Name</label>
+                                    <input type="text" class="form-control" placeholder="Last Name" required>
+                                </div>
+                                <div class="form-group float-label-control">
+                                    <label for="">Gender</label>
+                                        <div class="radio">
+                                          <label class="radio-inline"><input type="radio" name="optradio" required>Male</label>
+                                        </div>
+                                        <div class="radio">
+                                          <label class="radio-inline"><input type="radio" name="optradio" required>Female</label>
+                                        </div>
+                                </div>
+                                <div class="form-group float-label-control">
+                                    <label for="">Birth Date</label>
+                                    <input type="text" class="form-control" placeholder="Birthdate" required>
+                                </div>
+
+                                <div class="form-group float-label-control">
+                                    <label for="">Address</label>
+                                    <input type="text" class="form-control" placeholder="Address" required>
+                                </div>
+
+                                <div class="form-group float-label-control">
+                                    <label for="">City</label>
+                                    <input type="text" class="form-control" placeholder="City" required>
+                                </div>
+                                <div class="form-group float-label-control">
+                                    <label for="">State</label>
+                                    <input type="text" class="form-control" placeholder="State" required>
+                                </div>    
+                                <div class="form-group float-label-control">
+                                    <label for="">Postal Code</label>
+                                    <input type="text" class="form-control" placeholder="Postal Code" required>
+                                </div>
+                                <div class="form-group float-label-control">
+                                    <label for="">Country</label>
+                                    <select class="form-control" id="country" required></select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
             </ul>
         </nav>
         <!-- /#sidebar-wrapper -->
@@ -183,6 +250,7 @@
     <script src="{{ asset('js/lib/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/lib/wow.js') }}"></script>
     <script src="{{ asset('js/lib/sidebar.js') }}"></script>
+    <script src="{{ asset('js/lib/countries.js') }}"></script>
     <script src="{{ asset('js/call.js') }}"></script>
     <script src="{{ asset('js/mywallet.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
@@ -205,11 +273,25 @@
 
               });  
 
+             //edit profile
+            $(".profile-form").hide();
+
+            //overlay
             $("#dark_fade").hide();
+
+            //tabs
             $("#tab_ewallet").hide();
             $("#tab_call").hide();
             $("#tab_dialer").hide();
             $("#tab_selectplan").hide();
+
+
+            $('#profile-edit').click(function(){
+                $(".bhoechie-tab-container").delay(50).fadeOut('fast');
+                $(".profile-form").delay(50).fadeIn('fast');
+            });
+
+           
 
             overlay = $('.overlay');
 
