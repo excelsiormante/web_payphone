@@ -187,7 +187,7 @@
                                 </div>
                                 <div class="form-group float-label-control">
                                     <label for="">Mobile Number</label>
-                                    <input type="number" class="form-control" name="lastname" placeholder="Mobile Number" required>
+                                    <input type="number" class="form-control" name="mobileno" placeholder="Mobile Number" required>
                                 </div>
                                 <div class="form-group float-label-control">
                                     <label for="">Gender</label>
