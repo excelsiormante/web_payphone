@@ -9,10 +9,12 @@ use App\Http\Controllers\Controller;
 use App\Libraries\Common;
 
 class PlansController extends Controller {
-
+    
     public function index(){
         $plans = array();
-        $json_products = Common::callArcherAPI("10.251.14.197:8093/aog/getproducts/IRB/dealerid=319");
+        $json_products = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/getproducts/"
+                                              .config("constants.ARCHER_INSTANCE")."/"
+                                              ."dealerid=".config("constants.ARCHER_DEALERID"));
         $products = json_decode($json_products);
         if ( $products->resultCode->errorCode === 0 ) {
             foreach ($products->productDefList as $value) {
@@ -45,64 +47,79 @@ class PlansController extends Controller {
         
         return json_encode($plans);
     }
-
+    
     public function subscribe(){
         $return = array(
             "result" => config('constants.RESULT_INITIAL'),
             "message" => ""
         );
-        $plan_id       = Input::get('plan_id');
-        $price    = Input::get('plan_price');
-        $duration = Input::get('plan_duration');
-        $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
-        try {
-            $query = "SELECT pgc_halo.fn_subscribe_to_plan(?,?,?,?) as is_subscribe;";
-            $values = array($subscriber_id, $plan_id, $price, $duration);
-            $result = DB::select($query, $values);
-            if ( $result[0]->is_subscribe ) {
-                $return = array(
-                        "result" => config('constants.RESULT_SUCCESS'),
-                        "message" => "Successfully Added."
-                    );
-            } else {
-                $return = array(
-                        "result" => config('constants.RESULT_ERROR'),
-                        "message" => "Insufficient Wallet."
-                    );
-            }
-        } catch ( Exception $exc ) {
-            
+        $plan_id  = Input::get('plan_id');
+        $archer_account_id = Session::get('archer_account_id');
+        $subscribe = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/registerandenrollbyproductid/"
+                                          .config("constants.ARCHER_INSTANCE")."/"
+                                          .$archer_account_id."/"
+                                          .$plan_id."/"
+                                          .config("constants.ARCHER_DEALERID"));
+        $subscription = json_decode($subscribe);
+        if ( $subscription->resultCode->status === TRUE ) {
+            $return = array(
+                    "result" => config('constants.RESULT_SUCCESS'),
+                    "message" => "Successfully Added."
+                );
+        } else {
+            $return = array(
+                    "result" => config('constants.RESULT_ERROR'),
+                    "message" => $subscription->resultCode->errorMessage
+                );
         }
         return json_encode($return);
     }
     
     public function myPlans(){
         $myplan = array();
-        $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
+        $archer_account_id = Session::get('archer_account_id');
         
-        $json_myproducts = Common::callArcherAPI("http://10.251.14.197:8093/aog/getaccountinfo/anumber/IRB/6328441060/319");
+        $json_myproducts = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/getaccountinfo/anumber/"
+                                                .config("constants.ARCHER_INSTANCE")."/"
+                                                .$archer_account_id."/"
+                                                .config("constants.ARCHER_DEALERID"));
         $myproducts = json_decode($json_myproducts);
-        $my_products = $myproducts->productList;
-        if ( count($my_products) > 0 ) {
-            foreach ($my_products as $value) {
-                    if ( isset($myplan[$value->product_type]) ) {
+        if ( $myproducts->resultCode->status === TRUE ) {
+            $my_products = $myproducts->productList;
+            if ( count($my_products) > 0 ) {
+                foreach ($my_products as $value) {
+                    if ( isset($myplan[$value->productType]) ) {
                         $plan_details = array(
-                                                        'product_id'     => $value->product_id,
-                                                        'name'           => $value->name,
-                                                        'description'    => $value->description,
-                                                        'remaining_mins' => $value->remaining_mins
+                                                        'product_id'     => $value->productId,
+                                                        'remaining_mins' => $value->validityDays
                                                     );
-                        array_push($myplan[$value->product_type], $plan_details);
+                        array_push($myplan[$value->productType], $plan_details);
                     } else {
-                        $myplan[$value->product_type][0] = array(
-                                                        'product_id'     => $value->product_id,
-                                                        'name'           => $value->name,
-                                                        'description'    => $value->description,
-                                                        'remaining_mins' => $value->remaining_mins
+                        $myplan[$value->productType][0] = array(
+                                                        'product_id'     => $value->productId,
+                                                        'remaining_mins' => $value->validityDays
                                                     );
                     }
                 }
             }
-        return json_encode($myplan);
+            $return = array(
+                    "result"  => config('constants.RESULT_SUCCESS'),
+                    "message" => "",
+                    "data"    => $myplan
+                );
+        } else if ( $myproducts->resultCode->errorCode === 10031 ) {
+            $return = array(
+                    "result"  => config('constants.RESULT_ERROR'),
+                    "message" => "KYC process is needed to be able to access this module",
+                    "data"    => array()
+                );
+        } else {
+            $return = array(
+                    "result"  => config('constants.RESULT_ERROR'),
+                    "message" => $myproducts->resultCode->errorMessage,
+                    "data"    => array()
+                );
+        }
+        return json_encode($return);
     }
 }

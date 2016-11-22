@@ -34,8 +34,12 @@ return [
     
     'PAGE_LIMIT' => 10,
     
+    // ARCHER CONFIG
+    "ARCHER_HOME_URL" => "http://10.251.14.197:8093",
+    "ARCHER_INSTANCE" => "IRB",
     "ARCHER_USERNAME" => "IRB",
     "ARCHER_PASSWORD" => "pldtglobal",
+    "ARCHER_DEALERID" => "319",
     
     "SERVER" => "development"
     

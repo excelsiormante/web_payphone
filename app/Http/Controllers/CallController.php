@@ -11,46 +11,48 @@ use App\Libraries\Common;
 class CallController extends Controller {
     
     public function getSpeedDials(){
-        $product_id = Input::get("product_id");
-        $response = array(
-                        "plans" => FALSE,
-                        "selected_plan" => FALSE,
-                        "speed_dials" => FALSE
-                    );
-        try {
-            $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
-            
-            $json_myproducts = Common::callArcherAPI("http://10.251.14.197:8093/aog/getaccountinfo/anumber/IRB/6328441060/319");
-            $myproducts = json_decode($json_myproducts);
+        $my_plans = array();
+        $archer_account_id = Session::get('archer_account_id');
+
+        $json_myproducts = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/getaccountinfo/anumber/"
+                                                .config("constants.ARCHER_INSTANCE")."/"
+                                                .$archer_account_id."/"
+                                                .config("constants.ARCHER_DEALERID"));
+
+        $myproducts = json_decode($json_myproducts);
+        if ( $myproducts->resultCode->status === TRUE ) {
             $my_products = $myproducts->productList;
             if ( count($my_products) > 0 ) {
-                $dial_query = "SELECT * FROM pgc_halo.fn_get_my_speed_dials(?,?)
-                               RESULT (dial_id integer, numpad varchar, bnumber varchar);";
-                
-                if ( $product_id === null ) {
-                    $product_id = $my_products[0]->product_id;
-                }
-                $dial_values = array($subscriber_id, $product_id);
-                $dial_result = DB::select($dial_query,$dial_values);
-                $response['plans']         = $my_products;
-                if ( $product_id === null ) {
-                    $response['selected_plan'] = $my_products[0];
-                } else {
-                    foreach ($my_products as $key => $value) {
-                        if ( $value->product_id == $product_id ) {
-                            $response['selected_plan'] = $my_products[$key];
-                            break;
-                        }
-                    }
-                }
-                if ( count($dial_result) > 0 ) {      
-                    $response['speed_dials']   = $dial_result;
+                foreach ($my_products as $value) {
+                    $plans = array(
+                                "product_type" => $value->productType,
+                                "product_id"   => $value->productId,
+                                "numbers"      => $value->provisionedBNumbers,
+                                "remain_days"  => $value->validityDays
+                            );
+                    array_push($my_plans, $plans);
                 }
             }
-        } catch (Exception $exc) {
             
+            $return = array(
+                    "result"  => config('constants.RESULT_SUCCESS'),
+                    "message" => "",
+                    "data"    => $my_plans
+                );
+        } else if ( $myproducts->resultCode->errorCode === 10031 ) {
+            $return = array(
+                    "result"  => config('constants.RESULT_ERROR'),
+                    "message" => "KYC process is needed to be able to access this module",
+                    "data"    => array()
+                );
+        } else {
+            $return = array(
+                    "result"  => config('constants.RESULT_ERROR'),
+                    "message" => $myproducts->resultCode->errorMessage,
+                    "data"    => array()
+                );
         }
-        return json_encode($response);
+        return json_encode($return);
     }
     
     public function addSpeedDial(){
