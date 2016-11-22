@@ -186,6 +186,10 @@
                                     <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
                                 </div>
                                 <div class="form-group float-label-control">
+                                    <label for="">Mobile Number</label>
+                                    <input type="number" class="form-control" name="lastname" placeholder="Mobile Number" required>
+                                </div>
+                                <div class="form-group float-label-control">
                                     <label for="">Gender</label>
                                         <div class="radio">
                                           <label class="radio-inline"><input type="radio" name="gender" value="male" required>Male</label>

@@ -9,6 +9,7 @@ $(document).ready(function() {
             'firstname'  : $('input[name=firstname]').val(),
             'middlename' : $('input[name=middlename]').val(),
             'lastname'    : $('input[name=lastname]').val(),
+            'mobileno'    : $('input[name=mobileno]').val(),
             'gender'     : $('input[name=gender]').val(),
             'birthdate'  : $('input[name=birthdate]').val(),
             'address'    : $('input[name=address]').val(),
