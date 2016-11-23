@@ -22,16 +22,16 @@
 
      
 
-     @if(Session::has('payment_success'))
-     <div class="payment-alert notify successbox">
+    @if(Session::has('success_message'))
+    <div class="notif-alert notify successbox">
         <h4>Success!</h4>
-        <p style="font-size:13px">Payment Successful</p>
+        <p style="font-size:13px">{{Session::get('success_message')}}</p>
     </div>
     @endif
-    @if(Session::has('payment_fail'))
-    <div class="payment-alert notify errorbox">
+    @if(Session::has('failed_message'))
+    <div class="notif-alert notify errorbox">
         <h4>Failed!</h4>
-        <p style="font-size:13px">Payment attempt fail</p>
+        <p style="font-size:13px">{{Session::get('failed_message')}}</p>
     </div>
     @endif
 
@@ -288,7 +288,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
-            $( ".payment-alert" ).delay(5000).fadeOut(4000);
+            $( ".notif-alert" ).delay(5000).fadeOut(4000);
             
             $('.navigate').click(function() {
                 //$('body').css('background-image', 'url(images/bg-01.jpg)');

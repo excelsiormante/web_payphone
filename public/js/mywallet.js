@@ -54,4 +54,7 @@ $('.btnpayment').click(function(){
         alert('Please enter valid amount!');
     }
     });
+    $('#toggleVideo').click(function(){
+        $('#amount').val("")
+    });
 }

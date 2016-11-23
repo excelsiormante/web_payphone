@@ -73,9 +73,9 @@ class Paymaya
     }
   ],
   \"redirectUrl\": {
-    \"success\": \"http://localhost/web_payphone/public/paymaya/success\",
-    \"failure\": \"http://localhost/web_payphone/public/paymaya/failure\",
-    \"cancel\": \"http://localhost/web_payphone/public/app\"
+    \"success\": \"".url('paymaya/success')."\",
+    \"failure\": \"".url('paymaya/failure')."\",
+    \"cancel\": \"".url('app')."\"
   },
   \"requestReferenceNumber\": \"".$subs_details['transId']."\",
   \"metadata\": {}

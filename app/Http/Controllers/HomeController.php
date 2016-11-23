@@ -63,7 +63,13 @@ class HomeController extends Controller
 
     public function showLanding()
     {
-        return view('landing');
+        $with_login = Session::get("subscriber_id");
+        if ( $with_login !== NULL ) {
+            $return = redirect('app');
+        } else {
+            $return = view('landing');
+        }
+        return $return;
     }
 
  
