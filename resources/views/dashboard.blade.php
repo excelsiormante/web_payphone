@@ -7,10 +7,7 @@
     @include('modals.payment')
     @include('modals.paypercall')
 
-   
-
     <header id="top" class="header">
-
 
         <section id="tab_subscribe" class="section">
 

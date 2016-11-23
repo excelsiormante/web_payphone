@@ -19,6 +19,22 @@
 
   </head>
   <body>
+
+     
+
+     @if(Session::has('payment_success'))
+     <div class="payment-alert notify successbox">
+        <h4>Success!</h4>
+        <p style="font-size:13px">Payment Successful</p>
+    </div>
+    @endif
+    @if(Session::has('payment_fail'))
+    <div class="payment-alert notify errorbox">
+        <h4>Failed!</h4>
+        <p style="font-size:13px">Payment attempt fail</p>
+    </div>
+    @endif
+
     <div class="shadow"></div>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
@@ -67,6 +83,7 @@
 
     </nav>
 
+ 
     <div id="wrapper" class="toggled">
         <!-- Sidebar -->
         <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
@@ -270,6 +287,8 @@
         <!-- Custom Theme JavaScript -->
     <script type="text/javascript">
         $(document).ready(function(){
+
+            $( ".payment-alert" ).delay(5000).fadeOut(4000);
             
             $('.navigate').click(function() {
                 //$('body').css('background-image', 'url(images/bg-01.jpg)');

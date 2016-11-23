@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use Srmklive\PayPal\Services\AdaptivePayments;
-use redirect, response;
+use Redirect, response;
 use App\Libraries\Paymaya;
 use App\Libraries\PaymayaTransfer;
 use DB, Session, Crypt;
@@ -84,15 +84,20 @@ class PaymentsController extends Controller
         if ( $response['ACK'] === "Success" ) {
             $result = config('constants.RESULT_SUCCESS');
             $payment_result = $response['PAYMENTINFO_0_ERRORCODE'];
+            $status = "payment_success";
+            $message = "Payment Successful";
         } else {
             $result = config('constants.RESULT_ERROR');
             $payment_result = $response['L_ERRORCODE0'];
+            $return = redirect('/app')->with('payment_fail', 'Payment Failed!');
+            $status = "payment_fail";
+            $message = "Payment Fail";
         }
         $upd_trans_values = array($trans_data['invoice_id'], $result, $response['CORRELATIONID'], $payment_result);
         DB::select($upd_trans_query, $upd_trans_values);
         session()->forget($input['token']);
-        $return = redirect('/app');
-        return $return;
+
+        return Redirect::to('app')->with($status, $message);
     }
 
 
