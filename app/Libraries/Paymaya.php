@@ -11,10 +11,10 @@ class Paymaya
      * @param $data
      * @return array
      */
-    public static function checkout($amount)
+    public static function checkout($amount, $subs_details)
     {
         $fields_string = '';
-
+        $amount = number_format((float)$amount, 2, '.', '');
         /*
         if (is_array($data)) {
             foreach ($data as $key => $value) {
@@ -40,15 +40,15 @@ class Paymaya
     }
   },
   \"buyer\": {
-    \"firstName\": \"Juan\",
-    \"middleName\": \"dela\",
-    \"lastName\": \"Cruz\",
+    \"firstName\": \"".$subs_details['firstName']."\",
+    \"middleName\": \"".$subs_details['middleName']."\",
+    \"lastName\": \"".$subs_details['lastName']."\",
     \"contact\": {
-      \"phone\": \"+63(2)1234567890\",
-      \"email\": \"paymayabuyer1@gmail.com\"
+      \"phone\": \"".$subs_details['phone']."\",
+      \"email\": \"".$subs_details['email']."\"
     },
     
-    \"ipAddress\": \"125.60.148.241\"
+    \"ipAddress\": \"".$subs_details['IpAdd']."\"
   },
   \"items\": [
     {
@@ -77,7 +77,7 @@ class Paymaya
     \"failure\": \"http://localhost/web_payphone/public/paymaya/failure\",
     \"cancel\": \"http://localhost/web_payphone/public/app\"
   },
-  \"requestReferenceNumber\": \"000141386713\",
+  \"requestReferenceNumber\": \"".$subs_details['transId']."\",
   \"metadata\": {}
 }");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(

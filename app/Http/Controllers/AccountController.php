@@ -42,7 +42,7 @@ class AccountController extends Controller {
     public function get_profile(){
         $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
         $query = "SELECT * FROM pgc_halo.fn_get_subscriber_desc(?)
-                  RESULT (subscriber_id integer, firstname character varying, middlename character varying, lastname character varying, gender character varying, birthday date, address character varying, city character varying,state character varying,postal_code character varying,country  character varying,archer_account_id character varying);";
+                  RESULT (subscriber_id integer, firstname character varying, middlename character varying, lastname character varying, gender character varying, birthday date, ewallet double precision, email_address character varying, address character varying, city character varying,state character varying,postal_code character varying,country  character varying,archer_account_id character varying, status integer);";
         
         $values = array($subscriber_id);
         $result = DB::select($query,$values);

@@ -12,6 +12,7 @@ use redirect, response;
 use App\Libraries\Paymaya;
 use App\Libraries\PaymayaTransfer;
 use DB, Session, Crypt;
+use App\Libraries\Common;
 
 class PaymentsController extends Controller
 {
@@ -89,6 +90,7 @@ class PaymentsController extends Controller
         }
         $upd_trans_values = array($trans_data['invoice_id'], $result, $response['CORRELATIONID'], $payment_result);
         DB::select($upd_trans_query, $upd_trans_values);
+        session()->forget($input['token']);
         $return = redirect('/app');
         return $return;
     }
@@ -96,8 +98,29 @@ class PaymentsController extends Controller
 
     public function PaymayaCheckout($amount)
     {
-        $response = Paymaya::checkout($amount);
+        $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
+        $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
+        $add_trans_values = array($subscriber_id, $amount, "PAYMAYA");
+        $add_trans_result = DB::select($add_trans_query, $add_trans_values);
+        $transaction_id = $add_trans_result[0]->trans_id;
+        $query = "SELECT * FROM pgc_halo.fn_get_subscriber_desc(?)
+                  RESULT (subscriber_id integer, firstname character varying, middlename character varying, lastname character varying, gender character varying, birthday date, ewallet double precision, email_address character varying, address character varying, city character varying,state character varying,postal_code character varying,country  character varying,archer_account_id character varying, status integer);";
+        
+        $values = array($subscriber_id);
+        $result = DB::select($query,$values);
 
+        $subscriber = array(
+                        "firstName"  => $result[0]->firstname,
+                        "middleName" => $result[0]->middlename,
+                        "lastName"   => $result[0]->lastname,
+                        "phone"      => $result[0]->archer_account_id,
+                        "email"      => $result[0]->email_address,
+                        "transId"    => $transaction_id,
+                        "IpAdd"      => Common::get_client_ip()
+                    );
+        
+        $response = Paymaya::checkout($amount, $subscriber);
+        session()->put('transactionId', $transaction_id);
         session()->put('checkoutId', $response['checkoutId']);
 
         return redirect($response['redirectUrl']);
@@ -105,12 +128,22 @@ class PaymentsController extends Controller
 
     public function PaymayaSuccessCheckout()
     {
-        dd(session('checkoutId'));
+        $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
+        $upd_trans_values = array(session('transactionId'), config('constants.RESULT_SUCCESS'), session('checkoutId'), '0');
+        DB::select($upd_trans_query, $upd_trans_values);
+        session()->forget('transactionId');
+        session()->forget('checkoutId');
+        return redirect('/app');
     }
 
     public function PaymayaFailCheckout()
     {
-        dd('failed');
+        $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
+        $upd_trans_values = array(session('transactionId'), config('constants.RESULT_ERROR'), session('checkoutId'), '0');
+        DB::select($upd_trans_query, $upd_trans_values);
+        session()->forget('transactionId');
+        session()->forget('checkoutId');
+        return redirect('/app');
     }
 
  
