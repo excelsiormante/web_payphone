@@ -22,8 +22,6 @@ class Paymaya
             }
         }  */
 
-        
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://pg-sandbox.paymaya.com/checkout/v1/checkouts");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -75,9 +73,9 @@ class Paymaya
     }
   ],
   \"redirectUrl\": {
-    \"success\": \"localhost/webpayphone-app/public\",
-    \"failure\": \"localhost/webpayphone-app/public\",
-    \"cancel\": \"localhost/webpayphone-app/public\"
+    \"success\": \"http://localhost/web_payphone/public/paymaya/success\",
+    \"failure\": \"http://localhost/web_payphone/public/paymaya/failure\",
+    \"cancel\": \"http://localhost/web_payphone/public/app\"
   },
   \"requestReferenceNumber\": \"000141386713\",
   \"metadata\": {}

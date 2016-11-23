@@ -98,14 +98,19 @@ class PaymentsController extends Controller
     {
         $response = Paymaya::checkout($amount);
 
-
+        session()->put('checkoutId', $response['checkoutId']);
 
         return redirect($response['redirectUrl']);
     }
 
     public function PaymayaSuccessCheckout()
     {
-        dd(Request::all());
+        dd(session('checkoutId'));
+    }
+
+    public function PaymayaFailCheckout()
+    {
+        dd('failed');
     }
 
  
@@ -113,9 +118,9 @@ class PaymentsController extends Controller
     public function PaymayaTransfer()
     {
         
-        $response = PaymayaTransfer::CreateTransfer();
-
-        return redirect($response['redirectUrl']);
+        $create = PaymayaTransfer::CreateTransfer();
+        $execute = PaymayaTransfer::ExecuteTransfer($create['transferId']);
+        //return redirect($response['redirectUrl']);
     }
 
  
