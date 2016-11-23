@@ -1,5 +1,5 @@
 function addSpeedDial(){
-    var product_id = $("#plan_types").val();
+    var product_id =  $("#plan_types").val();
     $.ajax({
           type: 'GET',
           url: 'api/add_speed_dial',
@@ -26,8 +26,9 @@ function addSpeedDial(){
     });
 }
 
-function call(){
-    alert("Unsupported yet.");
+function call(number){
+    $("#telNumber").val(number);
+    $("#dialer").trigger("click");
 }
 
 function changeProduct(){
@@ -71,7 +72,7 @@ function generateCallPage(product_id){
                         if ( numbers.length > 0 ) {
                             $.each(numbers, function(key){
                                 var number = numbers[key];
-                                $("#div_speed_dials").append('<a href="#" class="btn btn-primary dialer" onclick="call('+number+')" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; '+number+'</font></strong> &nbsp;&nbsp;&nbsp;</a></br>');
+                                $("#div_speed_dials").append('<a href="#" class="btn btn-primary dialer" onclick="call('+number.bnumber+')" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; '+number.bnumber+'</font></strong> &nbsp;&nbsp;&nbsp;</a></br>');
                             });
                         }
                     }
@@ -93,7 +94,7 @@ function generateCallPage(product_id){
                                 if ( numbers.length > 0 ) {
                                     $.each(numbers, function(item){
                                         var number = numbers[item];
-                                        $("#div_speed_dials").append('<a href="#" class="btn btn-primary dialer" onclick="call('+number+')" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; '+number+'</font></strong> &nbsp;&nbsp;&nbsp;</a></br>');
+                                        $("#div_speed_dials").append('<a href="#" class="btn btn-primary dialer" onclick="call('+number.bnumber+')" id="menu-toggle"><strong><font color="#44ff00">Call : &nbsp; &nbsp; '+number.bnumber+'</font></strong> &nbsp;&nbsp;&nbsp;</a></br>');
                                     });
                                 }
                             } else {

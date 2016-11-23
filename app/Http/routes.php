@@ -37,6 +37,7 @@ Route::controllers([
 Route::group(['middleware' => 'auth'], function()
 {   
         Route::get('edit/profile', 'AccountController@edit_profile');
+        Route::get('get/profile', 'AccountController@get_profile');
 
 	Route::get('app', 'HomeController@showDashboard');
 	Route::get('paypal/set/{amount}', 'PaymentsController@PaypalExpressCheckout');
