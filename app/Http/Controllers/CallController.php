@@ -95,6 +95,11 @@ class CallController extends Controller {
         $my_products = $myproducts->productList;
         if ( count($my_products) > 0 ) {
             // Choose what plan should be used
+            
+            $query   = "SELECT pgc_halo.fn_call_number(?,?,?) call_id;";
+            $values  = array($subscriber_id, 0, $number);
+            $result  = DB::select($query,$values);
+            $call_id = $result[0]->call_id;
         } else {
             $query   = "SELECT pgc_halo.fn_call_number(?,?,?) call_id;";
             $values  = array($subscriber_id, 0, $number);
@@ -153,7 +158,7 @@ class CallController extends Controller {
     
     public function getLastDialedNumbers(){
         $query = "SELECT * FROM pgc_halo.fn_get_last_dialed_numbers(?)
-                  RESULT (number varchar, dial_count bigint);";
+                  RESULT (number varchar, dial_count bigint, last_date_called timestamp);";
         $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
         $values = array($subscriber_id);
         $result = DB::select($query, $values);

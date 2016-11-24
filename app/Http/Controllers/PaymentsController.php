@@ -84,20 +84,19 @@ class PaymentsController extends Controller
         if ( $response['ACK'] === "Success" ) {
             $result = config('constants.RESULT_SUCCESS');
             $payment_result = $response['PAYMENTINFO_0_ERRORCODE'];
-            $status = "payment_success";
+            $status = "success_message";
             $message = "Payment Successful";
         } else {
             $result = config('constants.RESULT_ERROR');
             $payment_result = $response['L_ERRORCODE0'];
-            $return = redirect('/app')->with('payment_fail', 'Payment Failed!');
-            $status = "payment_fail";
+            $status = "failed_message";
             $message = "Payment Fail";
         }
         $upd_trans_values = array($trans_data['invoice_id'], $result, $response['CORRELATIONID'], $payment_result);
         DB::select($upd_trans_query, $upd_trans_values);
         session()->forget($input['token']);
-
-        return Redirect::to('app')->with($status, $message);
+        $return = Redirect::to('app')->with($status, $message);
+        return $return;
     }
 
 
@@ -125,10 +124,17 @@ class PaymentsController extends Controller
                     );
         
         $response = Paymaya::checkout($amount, $subscriber);
+        if ( $response !== NULL ) {
         session()->put('transactionId', $transaction_id);
         session()->put('checkoutId', $response['checkoutId']);
-
-        return redirect($response['redirectUrl']);
+            $return = redirect($response['redirectUrl']);
+        } else {
+            $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
+            $upd_trans_values = array($transaction_id, config('constants.RESULT_ERROR'), '0', '0');
+            DB::select($upd_trans_query, $upd_trans_values);
+            $return = redirect('/app');
+        }
+        return $return;
     }
 
     public function PaymayaSuccessCheckout()
