@@ -21,6 +21,7 @@
   <body>
 
      
+     {{ Form::hidden('landing_tab', $landing_tab) }}
 
      @if(Session::has('payment_success'))
      <div class="payment-alert notify successbox">
