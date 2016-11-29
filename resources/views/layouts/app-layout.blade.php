@@ -20,9 +20,6 @@
   </head>
   <body>
 
-     
-     {{ Form::hidden('landing_tab', $landing_tab) }}
-
     @if(Session::has('success_message'))
     <div class="notif-alert notify successbox">
         <h4>Success!</h4>
