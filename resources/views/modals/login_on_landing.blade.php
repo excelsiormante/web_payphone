@@ -18,8 +18,8 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Login via site</h3>
                             </div>
-                            
-                                <form role="form" method="POST">
+
+                                <form role="form" action="auth/login" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <fieldset>
                                     <div class="form-group">
