@@ -11,7 +11,7 @@ $("#selectplan").click(function(){
         },
         success:function(response){
             overlay.delay(500).fadeOut('fast');
-            if ( response.result === 2 ) {
+          /*  if ( response.result === 2 ) {
                 alert(response.message);
             } else {
                 var plans = response.data;
@@ -27,13 +27,13 @@ $("#selectplan").click(function(){
                     });
                     $("#myplans").append('</a>');
                 });
-            }
+            }  */ 
         },
         error:function(){
-            
-        }
+                
+            }
+        });
     });
-});
 
 
 

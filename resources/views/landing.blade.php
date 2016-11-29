@@ -15,6 +15,7 @@
     <link href="{{ asset('css/loading.css')}}" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href="{{ asset('css/subscribe-flip.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/login.css')}}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 
   </head>
@@ -53,6 +54,8 @@
 
         </nav>
 
+        @include('modals.login_on_landing')
+
         <header id="top" class="header">
 
             <section id="tab_header" class="section">
@@ -62,7 +65,7 @@
                             <h1>Call from the Web Payphone</h1>
                             <h4>Call anywhere from the world through our web call services. Hassle no more on payments, you can pay your subscriptions through paypal, paymaya and other payment services</h4>
                             <hr>
-                             <a href="#one" class="btn btn-primary btn-xl buycredits">Get Started</a>
+                             <a href="#loginModal" data-toggle="modal" class="btn btn-primary btn-xl buycredits">Get Started</a>
                         </div>
                     </div>
                     <video autoplay="" loop="" class="fillWidth fadeIn wow collapse in" data-wow-delay="0.5s" poster="https://s3-us-west-2.amazonaws.com/coverr/poster/Traffic-blurred2.jpg" id="video-background">
