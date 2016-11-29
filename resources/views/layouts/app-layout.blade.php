@@ -20,7 +20,6 @@
   </head>
   <body>
 
-
     @if(Session::has('success_message'))
     <div class="notif-alert notify successbox">
         <h4>Success!</h4>

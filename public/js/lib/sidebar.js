@@ -30,10 +30,11 @@ $(document).ready(function () {
         },
         success:function(response){
             $("#div_dialed_number").empty();
+            var html = "";
             $.each(response, function(key){
-                var html = '<a href="#"><div class="media-body"><div class="col-md-3"><img class="media-object img-circle" src="http://mysunrisetravel.com/wp-content/uploads/2015/07/placeholder-profile-male.jpg" style="width: 50px;height:50px;"></div><div class="col-md-9"><h4 class="pull-left" style="margin-top:0px">'+response[key].number+'</h4><br><h5 class="text-left"><span class="glyphicon glyphicon-earphone" style="color:#04ff00"></span><strong>&nbsp;&nbsp; Call</strong></h5></div></div></a>';
-                $("#div_dialed_number").html(html);
+                html += '\n<a href="#"><div class="media-body"><div class="col-md-3"><img class="media-object img-circle" src="http://mysunrisetravel.com/wp-content/uploads/2015/07/placeholder-profile-male.jpg" style="width: 50px;height:50px;"></div><div class="col-md-9"><h4 class="pull-left" style="margin-top:0px">'+response[key].number+'</h4><br><h5 class="text-left"><span class="glyphicon glyphicon-earphone" style="color:#04ff00"></span><strong>&nbsp;&nbsp; Call</strong></h5></div></div></a>';
             });
+            $("#div_dialed_number").html(html);
         },
         error:function(){
 
