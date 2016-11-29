@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator, Crypt;
-use Auth, Input, Session;
+use Auth, Input, Session, Redirect;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -61,6 +61,13 @@ class AuthController extends Controller
             return redirect('auth/login');
         }
     }
+
+    public function getLogout(){
+        Auth::logout();
+        Session::flush();
+        return Redirect::to('/');
+    }
+
 
 
     /**
