@@ -71,7 +71,7 @@ $("#subscribe").click(function(){
                         var product_price    = response[group][products]['price'];
                         var product_duration = response[group][products]['duration'];
                         //htmlstring = htmlstring +'<div class="media wow fadeInRight">';
-                        htmlstring = htmlstring +'<a data-id="'+product_id+'" data-name="'+product_name+'" data-price="'+product_price+'" data-duration="'+product_duration+'" href="#confirmationModal" class="btn btn-primary product_list" data-toggle="modal">'+response[group][products]['name']+' &nbsp;&nbsp;&nbsp; <strong>$'+response[group][products]['price']+'</strong></a>';
+                        htmlstring = htmlstring +'<a style="min-width:350px; margin-bottom:10px; background-color:rgba(0,0,0,0.5);" data-id="'+product_id+'" data-name="'+product_name+'" data-price="'+product_price+'" data-duration="'+product_duration+'" href="#confirmationModal" class="btn btn-primary product_list" data-toggle="modal"><div class="col-md-8 text-left" style="white-space:normal; margin-top:5px;">'+response[group][products]['name']+'</div><div class="col-md-4 text-right" style="margin-top:7px; font-size:20px;"><font color="#04ff00">$'+response[group][products]['price']+'</font></div><div class="col-md-12" style="white-space:normal; font-size:13px; font-weight:200;"><hr style="max-width:250px;">'+response[group][products]['description']+'</div></a>';
                         //htmlstring = htmlstring +'</div>'; 
                     }); 
 
