@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Validator, Crypt;
+use Validator, Crypt, Mail;
 use Auth, Input, Session, Redirect;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -93,10 +93,15 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name'          => $data['name'],
             'email_address' => $data['email_address'],
             'password'      => bcrypt($data['password'])
         ]);
+        Mail::send('registration.test', $data, function($mail) use ($data) {
+            $mail->to($data['email_address'], $data['name'])->subject("Web Pay Phone Registration");
+        });
+        
+        return $user;
     }
 }
