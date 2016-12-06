@@ -55,7 +55,7 @@ class AuthController extends Controller
             Session::put('name', $user->name);
             Session::put('email', $user->email_address);
             Session::put('archer_account_id',$user->archer_account_id);
-
+            Session::put('subs_status',$user->status);
             return redirect()->intended('app');
         } else {
             return redirect('auth/login');
@@ -98,8 +98,11 @@ class AuthController extends Controller
             'email_address' => $data['email_address'],
             'password'      => bcrypt($data['password'])
         ]);
-        Mail::send('registration.test', $data, function($mail) use ($data) {
-            $mail->to($data['email_address'], $data['name'])->subject("Web Pay Phone Registration");
+        
+        $data['link'] = url('verify/account/' . Crypt::encrypt($user->id));
+        Mail::send('emails.registration', $data, function($mail) use ($data) {
+//            $mail->to($data['email_address'], $data['name'])->subject("Web Pay Phone Registration");
+            $mail->to('jsanchez@stratpoint.com', $data['name'])->subject("Web Pay Phone Registration");
         });
         
         return $user;

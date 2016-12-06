@@ -13,6 +13,11 @@ return [
     'CALL_MISSED'  => 2,
     
     // DB Statuses
+    'STATUS_PENDING'   => 0,
+    'STATUS_ACTIVE'    => 1,
+    'STATUS_SUSPENDED' => 2,
+    'STATUS_INACTIVE'  => 3,
+    
     'STATUS' => array(
                     array(
                         'value' => 0,

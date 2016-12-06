@@ -28,6 +28,12 @@
                                     </div>
                                 @endif
 
+                                @if(Session::has('failed_message'))
+                                    <div>
+                                        <p style="font-size:13px; color: red;">{{Session::get('failed_message')}}</p>
+                                    </div>
+                                @endif
+                                
                                 <form role="form" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <fieldset>

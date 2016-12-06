@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Plan;
-use Request, Session, DB, Validator, Input, Redirect, Crypt;
+use Request, Session, DB, Validator, Input, Redirect, Crypt, Mail;
 use App\Http\Controllers\Controller;
 use App\Libraries\Common;
 
@@ -53,24 +53,37 @@ class PlansController extends Controller {
             "result" => config('constants.RESULT_INITIAL'),
             "message" => ""
         );
-        $plan_id  = Input::get('plan_id');
-        $archer_account_id = Session::get('archer_account_id');
-        $subscribe = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/registerandenrollbyproductid/"
-                                          .config("constants.ARCHER_INSTANCE")."/"
-                                          .$archer_account_id."/"
-                                          .$plan_id."/"
-                                          .config("constants.ARCHER_DEALERID"));
-        $subscription = json_decode($subscribe);
-        if ( $subscription->resultCode->status === TRUE ) {
+        
+        if ( Session::get('subs_status') !== config('constants.STATUS_ACTIVE') ) {
             $return = array(
-                    "result" => config('constants.RESULT_SUCCESS'),
-                    "message" => "Successfully Added."
+                    "result"  => config('constants.RESULT_ERROR'),
+                    "message" => "Please verify account first."
                 );
         } else {
-            $return = array(
-                    "result" => config('constants.RESULT_ERROR'),
-                    "message" => $subscription->resultCode->errorMessage
-                );
+            $plan_id  = Input::get('plan_id');
+            $archer_account_id = Session::get('archer_account_id');
+            $subscribe = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/registerandenrollbyproductid/"
+                                              .config("constants.ARCHER_INSTANCE")."/"
+                                              .$archer_account_id."/"
+                                              .$plan_id."/"
+                                              .config("constants.ARCHER_DEALERID"));
+            $subscription = json_decode($subscribe);
+
+            Mail::send('emails.subscription', $subscription, function($mail) {
+                $mail->to('jsanchez@stratpoint.com', 'Maui')->subject("Web Pay Phone Subscription");
+            });
+
+            if ( $subscription->resultCode->status === TRUE ) {
+                $return = array(
+                        "result" => config('constants.RESULT_SUCCESS'),
+                        "message" => "Successfully Added."
+                    );
+            } else {
+                $return = array(
+                        "result" => config('constants.RESULT_ERROR'),
+                        "message" => $subscription->resultCode->errorMessage
+                    );
+            }
         }
         return json_encode($return);
     }

@@ -33,6 +33,7 @@ Route::controllers([
    'password' => 'Auth\PasswordController',
 ]);
 
+Route::get('verify/account/{account_id}', 'AccountController@verify');
 
 Route::group(['middleware' => 'auth'], function()
 {   
@@ -45,7 +46,7 @@ Route::group(['middleware' => 'auth'], function()
 
 	Route::get('paymaya/set/{amount}', 'PaymentsController@PaymayaCheckout');
 	Route::get('paymaya/success', 'PaymentsController@PaymayaSuccessCheckout');
-    Route::get('paymaya/failure', 'PaymentsController@PaymayaFailCheckout');
+        Route::get('paymaya/failure', 'PaymentsController@PaymayaFailCheckout');
 
 	Route::get('paymayatransfer/set', 'PaymentsController@PaymayaTransfer');
 

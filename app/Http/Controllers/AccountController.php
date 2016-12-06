@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 
-use App\Call;
-use Request, Session, DB, Validator, Input, Redirect, Crypt;
+use App\Call, App\User;
+use Request, Session, DB, Validator, Input, Redirect, Crypt, Auth;
 use App\Http\Controllers\Controller;
 use App\Libraries\Common;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class AccountController extends Controller {
     public function edit_profile(){
@@ -47,5 +48,32 @@ class AccountController extends Controller {
         $values = array($subscriber_id);
         $result = DB::select($query,$values);
         return json_encode($result[0]);
+    }
+    
+    public function verify($id){
+        try {
+            $subscriber_id = Crypt::decrypt($id);
+        } catch (DecryptException $e) {
+            return redirect('auth/login')->with("failed_message", "Verification Link is invalid.");
+        }
+        $query = "SELECT * FROM pgc_halo.fn_verify_account(?)
+                  RESULT (name varchar, password varchar, email_address varchar, archer_account_id varchar);";
+        $values = array($subscriber_id);
+        $result = DB::select($query,$values);
+        
+        if ( count($result) > 0 ) {
+            if ( $result[0]->password !== NULL ) {
+                $user = User::where('email_address',$result[0]->email_address)->first();
+                Auth::login($user);
+                Session::put('subscriber_id', Crypt::encrypt($user->id));
+                Session::put('name', $user->name);
+                Session::put('email', $user->email_address);
+                Session::put('archer_account_id',$user->archer_account_id);
+                Session::put('subs_status',$user->status);
+                return redirect()->intended('app');
+            }
+        } else {
+            return redirect('auth/login')->with("failed_message", "Already Verified, Please log in.");
+        }
     }
 }

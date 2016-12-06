@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\SocialAccountService;
-use Socialite, Session, Crypt, Mail; 
+use Socialite, Session, Crypt; 
 
 class SocialAuthController extends Controller
 {
@@ -21,10 +21,6 @@ class SocialAuthController extends Controller
         // Important change from previous post is that I'm now passing
         // whole driver, not only the user. So no more ->user() part
         $user = $service->createOrGetUser(Socialite::driver($provider));
-
-        Mail::send('registration.test', $user, function($mail) use ($user) {
-            $mail->to($user->email, $user->name)->subject("Web Pay Phone Registration");
-        });
         
         auth()->login($user);
 
@@ -32,7 +28,7 @@ class SocialAuthController extends Controller
         Session::put('name',$user->name);
         Session::put('email', $user->email);
         Session::put('archer_account_id',$user->archer_account_id);
-
+        Session::put('subs_status',$user->status);
         
         return redirect()->to('app');
     }

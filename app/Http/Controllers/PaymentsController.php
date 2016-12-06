@@ -24,48 +24,51 @@ class PaymentsController extends Controller
 
     public function PaypalExpressCheckout($amount)
     {
-
-        $provider = new ExpressCheckout; 
-
-        $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
-        $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
-        $add_trans_values = array($subscriber_id, $amount, "PAYPAL");
-        $add_trans_result = DB::select($add_trans_query, $add_trans_values);
-        $transaction_id = $add_trans_result[0]->trans_id;
-        
-        $data = [];
-        $data['items'] = [
-            [
-                'name'  => 'E-wallet load',
-                'price' => $amount,
-                'qty'   => 1
-            ]
-        ];
-
-        $data['invoice_id'] = $transaction_id;
-        $data['invoice_description'] = "Order #".$data['invoice_id']."Invoice";
-        $data['return_url'] = url('paypal/success');
-        $data['cancel_url'] = url('/');
-
-        $total = 0;
-
-        foreach($data['items'] as $item) {
-            $total += $item['price'];
-        }
-
-        $data['total'] = $total;
-
-        $response = $provider->setExpressCheckout($data);
-        if ( $response['ACK'] === "Success" ) {
-            // Here you store it in session with session helper, with the key as transaction token.
-            session()->put($response['TOKEN'], $data);
-
-            $return = redirect($response['paypal_link']);
+        if ( Session::get('subs_status') !== config('constants.STATUS_ACTIVE') ) {
+            $return = Redirect::to('app')->with("failed_message", "Please verify account first.");
         } else {
-            $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
-            $upd_trans_values = array($transaction_id, config('constants.RESULT_ERROR'), $response['CORRELATIONID'], $response['L_ERRORCODE0']);
-            DB::select($upd_trans_query, $upd_trans_values);
-            $return = redirect('/');
+            $provider = new ExpressCheckout; 
+
+            $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
+            $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
+            $add_trans_values = array($subscriber_id, $amount, "PAYPAL");
+            $add_trans_result = DB::select($add_trans_query, $add_trans_values);
+            $transaction_id = $add_trans_result[0]->trans_id;
+
+            $data = [];
+            $data['items'] = [
+                [
+                    'name'  => 'E-wallet load',
+                    'price' => $amount,
+                    'qty'   => 1
+                ]
+            ];
+
+            $data['invoice_id'] = $transaction_id;
+            $data['invoice_description'] = "Order #".$data['invoice_id']."Invoice";
+            $data['return_url'] = url('paypal/success');
+            $data['cancel_url'] = url('/');
+
+            $total = 0;
+
+            foreach($data['items'] as $item) {
+                $total += $item['price'];
+            }
+
+            $data['total'] = $total;
+
+            $response = $provider->setExpressCheckout($data);
+            if ( $response['ACK'] === "Success" ) {
+                // Here you store it in session with session helper, with the key as transaction token.
+                session()->put($response['TOKEN'], $data);
+
+                $return = redirect($response['paypal_link']);
+            } else {
+                $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
+                $upd_trans_values = array($transaction_id, config('constants.RESULT_ERROR'), $response['CORRELATIONID'], $response['L_ERRORCODE0']);
+                DB::select($upd_trans_query, $upd_trans_values);
+                $return = redirect('/');
+            }
         }
         return $return;
     }
@@ -102,37 +105,41 @@ class PaymentsController extends Controller
 
     public function PaymayaCheckout($amount)
     {
-        $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
-        $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
-        $add_trans_values = array($subscriber_id, $amount, "PAYMAYA");
-        $add_trans_result = DB::select($add_trans_query, $add_trans_values);
-        $transaction_id = $add_trans_result[0]->trans_id;
-        $query = "SELECT * FROM pgc_halo.fn_get_subscriber_desc(?)
-                  RESULT (subscriber_id integer, firstname character varying, middlename character varying, lastname character varying, gender character varying, birthday date, ewallet double precision, email_address character varying, address character varying, city character varying,state character varying,postal_code character varying,country  character varying,archer_account_id character varying, status integer);";
-        
-        $values = array($subscriber_id);
-        $result = DB::select($query,$values);
-
-        $subscriber = array(
-                        "firstName"  => $result[0]->firstname,
-                        "middleName" => $result[0]->middlename,
-                        "lastName"   => $result[0]->lastname,
-                        "phone"      => $result[0]->archer_account_id,
-                        "email"      => $result[0]->email_address,
-                        "transId"    => $transaction_id,
-                        "IpAdd"      => Common::get_client_ip()
-                    );
-        
-        $response = Paymaya::checkout($amount, $subscriber);
-        if ( $response !== NULL ) {
-        session()->put('transactionId', $transaction_id);
-        session()->put('checkoutId', $response['checkoutId']);
-            $return = redirect($response['redirectUrl']);
+        if ( Session::get('subs_status') !== config('constants.STATUS_ACTIVE') ) {
+            $return = Redirect::to('app')->with("failed_message", "Please verify account first.");
         } else {
-            $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
-            $upd_trans_values = array($transaction_id, config('constants.RESULT_ERROR'), '0', '0');
-            DB::select($upd_trans_query, $upd_trans_values);
-            $return = redirect('/app');
+            $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
+            $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
+            $add_trans_values = array($subscriber_id, $amount, "PAYMAYA");
+            $add_trans_result = DB::select($add_trans_query, $add_trans_values);
+            $transaction_id = $add_trans_result[0]->trans_id;
+            $query = "SELECT * FROM pgc_halo.fn_get_subscriber_desc(?)
+                      RESULT (subscriber_id integer, firstname character varying, middlename character varying, lastname character varying, gender character varying, birthday date, ewallet double precision, email_address character varying, address character varying, city character varying,state character varying,postal_code character varying,country  character varying,archer_account_id character varying, status integer);";
+
+            $values = array($subscriber_id);
+            $result = DB::select($query,$values);
+
+            $subscriber = array(
+                            "firstName"  => $result[0]->firstname,
+                            "middleName" => $result[0]->middlename,
+                            "lastName"   => $result[0]->lastname,
+                            "phone"      => $result[0]->archer_account_id,
+                            "email"      => $result[0]->email_address,
+                            "transId"    => $transaction_id,
+                            "IpAdd"      => Common::get_client_ip()
+                        );
+
+            $response = Paymaya::checkout($amount, $subscriber);
+            if ( $response !== NULL ) {
+                session()->put('transactionId', $transaction_id);
+                session()->put('checkoutId', $response['checkoutId']);
+                $return = redirect($response['redirectUrl']);
+            } else {
+                $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
+                $upd_trans_values = array($transaction_id, config('constants.RESULT_ERROR'), '0', '0');
+                DB::select($upd_trans_query, $upd_trans_values);
+                $return = redirect('/app');
+            }
         }
         return $return;
     }
