@@ -75,11 +75,21 @@ $("#subscribe").click(function(){
                         //htmlstring = htmlstring +'</div>'; 
                     }); 
 
+                    
+
                     htmlstring = htmlstring + '</li>' ;
 
                     $('#div_products').append(htmlstring);
                     $('#plangroup').append(grouplabel);
                 });
+                
+                //var pinsubscribe = '';
+                var pinlabel = '';
+
+                //pinsubscribe = pinsubscribe + '<li data-type="pin" class="is-hidden">';
+                pinlabel = '<a name="duration-1" href="#pinvoucherModal" data-toggle="modal"><label for="pin-1">Enter Pin</label></a>';
+
+                $('#plangroup').append(pinlabel);
 
                 //load subscribe flip after loading html tags               
                 $.getScript("js/lib/subscribe-flip.js");
