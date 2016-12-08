@@ -17,7 +17,6 @@ $("#ewallet").click(function(){
                 overlay.delay(500).fadeOut('fast');
                 $('#div_balance').empty();
                 $('#div_balance').append('<h1 class="text-left"><strong>$'+response.balance+'</strong></h1>');
-                $('#div_balance').append('<p class="text-left">As of today 7:14pm</p>');
             }
           },
           error:function(){

@@ -38,18 +38,31 @@
                                 </fieldset>
                                 </form>
                                   <hr/>
-                                <center><h4><font color="white">Or Login via</font></h4></center>
+                                <center><h4><font color="white">Login via</font></h4></center>
+                                
                                 <div class="col-md-12">
+                                    <center>
                                     <ul class="social-network social-circle">
                                         <li><a href="{{url('redirect/facebook')}}" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                                         <li><a href="#" class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
                                         <li><a href="{{url('redirect/google')}}" class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>
                                         <li><a href="{{url('redirect/linkedin')}}" class="icoLinkedin" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
                                     </ul>   
+                                    </center>
                                     <hr/>            
-                                </div>         
-                                <center><h5><font color="white">Don't have an account yet?</font></h5>&nbsp;
-                                <a href="{{url('auth/register')}}"><font color="white">Register</font></a></center>
+                                </div>
+
+                              
+                                <div>
+                                    <center><h5><font color="white">Don't have an account yet?</font></h5>
+                                    <a href="{{url('auth/register')}}"><font color="white">Register</font></a></center>
+                                    <hr/>
+                                </div>
+
+                                <center><h4><font color="white">Or</font></h4></center>
+                                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login as Guest">
+                                    
+                        
                         </div>
              
         	</div>
