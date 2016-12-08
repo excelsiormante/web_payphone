@@ -108,6 +108,8 @@ class PaymentsController extends Controller
         if ( Session::get('subs_status') !== config('constants.STATUS_ACTIVE') ) {
             $return = Redirect::to('app')->with("failed_message", "Please verify account first.");
         } else {
+
+
             $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
             $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
             $add_trans_values = array($subscriber_id, $amount, "PAYMAYA");
@@ -130,6 +132,7 @@ class PaymentsController extends Controller
                         );
 
             $response = Paymaya::checkout($amount, $subscriber);
+
             if ( $response !== NULL ) {
                 session()->put('transactionId', $transaction_id);
                 session()->put('checkoutId', $response['checkoutId']);

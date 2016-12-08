@@ -25,7 +25,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h2 class="text-center">Enter Voucher Pin:</h2>
-                <input style="text-align:center; width: 300px;  margin-left: auto; margin-right: auto;" class="form-control" name="amount"  placeholder="Voucher Pin" id="amount">
+                <input style="text-align:center; width: 300px;  margin-left: auto; margin-right: auto;" class="form-control" name="voucher_pin"  placeholder="Voucher Pin" id="voucher_pin">
                 <br>
                 <div class="row">
                     <div class="text-center">
