@@ -76,4 +76,21 @@ class AccountController extends Controller {
             return redirect('auth/login')->with("failed_message", "Already Verified, Please log in.");
         }
     }
+    
+    public function guest_login(){
+        $query = "SELECT pgc_halo.fn_create_guest() as guest_email;";
+        
+        $result = DB::select($query);
+        $user = User::where('email_address',$result[0]->guest_email)->first();
+        auth()->login($user);
+
+        Session::put('subscriber_id', Crypt::encrypt($user->id));
+        Session::put('name',$user->name);
+        Session::put('email', $user->email);
+        Session::put('archer_account_id',$user->archer_account_id);
+        Session::put('subs_status',$user->status);
+        
+        return redirect()->to('app');
+
+    }
 }

@@ -21,6 +21,7 @@ Route::get('auth/login', 'HomeController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@authenticate');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
+Route::get('auth/guest', 'AccountController@guest_login');
 Route::get('redirect/{provider}', 'SocialAuthController@redirect');
 Route::get('callback/{provider}', 'SocialAuthController@callback');
 

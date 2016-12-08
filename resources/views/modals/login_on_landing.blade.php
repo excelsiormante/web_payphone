@@ -18,7 +18,7 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Login via site</h3>
                             </div>
-
+                            
                                 <form role="form" action="auth/login" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <fieldset>
@@ -50,17 +50,17 @@
                                     </ul>   
                                     </center>
                                     <hr/>            
-                                </div>
+                                </div>         
 
                               
                                 <div>
                                     <center><h5><font color="white">Don't have an account yet?</font></h5>
-                                    <a href="{{url('auth/register')}}"><font color="white">Register</font></a></center>
+                                <a href="{{url('auth/register')}}"><font color="white">Register</font></a></center>
                                     <hr/>
                                 </div>
 
                                 <center><h4><font color="white">Or</font></h4></center>
-                                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login as Guest">
+                                <a href="{{url('auth/guest')}}"><input class="btn btn-lg btn-primary btn-block" type="button" value="Login as Guest"></a>
                                     
                         
                         </div>
