@@ -108,8 +108,6 @@ class PaymentsController extends Controller
         if ( Session::get('subs_status') !== config('constants.STATUS_ACTIVE') ) {
             $return = Redirect::to('app')->with("failed_message", "Please verify account first.");
         } else {
-
-
             $add_trans_query = "SELECT pgc_halo.fn_insert_ewallet_transaction(?,?,?) as trans_id;";
             $subscriber_id = Crypt::decrypt(Session::get('subscriber_id'));
             $add_trans_values = array($subscriber_id, $amount, "PAYMAYA");
@@ -121,27 +119,30 @@ class PaymentsController extends Controller
             $values = array($subscriber_id);
             $result = DB::select($query,$values);
 
-            $subscriber = array(
-                            "firstName"  => $result[0]->firstname,
-                            "middleName" => $result[0]->middlename,
-                            "lastName"   => $result[0]->lastname,
-                            "phone"      => $result[0]->archer_account_id,
-                            "email"      => $result[0]->email_address,
-                            "transId"    => $transaction_id,
-                            "IpAdd"      => Common::get_client_ip()
-                        );
-
-            $response = Paymaya::checkout($amount, $subscriber);
-
-            if ( $response !== NULL ) {
-                session()->put('transactionId', $transaction_id);
-                session()->put('checkoutId', $response['checkoutId']);
-                $return = redirect($response['redirectUrl']);
+            if ( count($result) === 0 ) {
+                $return = Redirect::to('app')->with("failed_message", "Please edit your profile first.");
             } else {
-                $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
-                $upd_trans_values = array($transaction_id, config('constants.RESULT_ERROR'), '0', '0');
-                DB::select($upd_trans_query, $upd_trans_values);
-                $return = redirect('/app');
+                $subscriber = array(
+                                "firstName"  => $result[0]->firstname,
+                                "middleName" => $result[0]->middlename,
+                                "lastName"   => $result[0]->lastname,
+                                "phone"      => $result[0]->archer_account_id,
+                                "email"      => $result[0]->email_address,
+                                "transId"    => $transaction_id,
+                                "IpAdd"      => Common::get_client_ip()
+                            );
+
+                $response = Paymaya::checkout($amount, $subscriber);
+                if ( $response !== NULL ) {
+                    session()->put('transactionId', $transaction_id);
+                    session()->put('checkoutId', $response['checkoutId']);
+                    $return = redirect($response['redirectUrl']);
+                } else {
+                    $upd_trans_query = "SELECT pgc_halo.fn_update_ewallet_transaction(?,?,?,?) as trans_id;";
+                    $upd_trans_values = array($transaction_id, config('constants.RESULT_ERROR'), '0', '0');
+                    DB::select($upd_trans_query, $upd_trans_values);
+                    $return = Redirect::to('app')->with("failed_message", "Reloading your wallet failed. Please try again.");
+                }
             }
         }
         return $return;

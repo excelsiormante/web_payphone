@@ -60,28 +60,44 @@ class PlansController extends Controller {
                     "message" => "Please verify account first."
                 );
         } else {
-            $plan_id  = Input::get('plan_id');
+            $subscriber_id     = Crypt::decrypt(Session::get('subscriber_id'));
             $archer_account_id = Session::get('archer_account_id');
-            $subscribe = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/registerandenrollbyproductid/"
-                                              .config("constants.ARCHER_INSTANCE")."/"
-                                              .$archer_account_id."/"
-                                              .$plan_id."/"
-                                              .config("constants.ARCHER_DEALERID"));
-            $subscription = json_decode($subscribe);
+            $plan_price        = Input::get('plan_price');
+            $plan_duration     = Input::get('plan_duration');
+            $plan_id  = Input::get('plan_id');
 
-            Mail::send('emails.subscription', $subscription, function($mail) {
-                $mail->to('jsanchez@stratpoint.com', 'Maui')->subject("Web Pay Phone Subscription");
-            });
+            $query = "SELECT pgc_halo.fn_subscribe_to_plan(?,?,?,?) as is_subscribe;";
+            $values = array($subscriber_id, $plan_id, $plan_price, $plan_duration);
+            $result = DB::select($query, $values);
+            $is_subscribe = $result[0]->is_subscribe;
 
-            if ( $subscription->resultCode->status === TRUE ) {
-                $return = array(
-                        "result" => config('constants.RESULT_SUCCESS'),
-                        "message" => "Successfully Added."
-                    );
+            if ( $is_subscribe === TRUE ) {
+                $subscribe = Common::callArcherAPI(config("constants.ARCHER_HOME_URL")."/aog/registerandenrollbyproductid/"
+                                                  .config("constants.ARCHER_INSTANCE")."/"
+                                                  .$archer_account_id."/"
+                                                  .$plan_id."/"
+                                                  .config("constants.ARCHER_DEALERID"));
+                $subscription = json_decode($subscribe);
+
+                Mail::send('emails.subscription', array(), function($mail) {                    
+                    $mail->to(Session::get('email'), Session::get('name'))->subject("Web Pay Phone Subscription");
+                });
+
+                if ( $subscription->resultCode->status === TRUE ) {
+                    $return = array(
+                            "result" => config('constants.RESULT_SUCCESS'),
+                            "message" => "Successfully Subscribe."
+                        );
+                } else {
+                    $return = array(
+                            "result" => config('constants.RESULT_ERROR'),
+                            "message" => $subscription->resultCode->errorMessage
+                        );
+                }
             } else {
                 $return = array(
-                        "result" => config('constants.RESULT_ERROR'),
-                        "message" => $subscription->resultCode->errorMessage
+                        "result"  => config('constants.RESULT_ERROR'),
+                        "message" => "Insufficient Balance."
                     );
             }
         }
@@ -101,17 +117,11 @@ class PlansController extends Controller {
             $my_products = $myproducts->productList;
             if ( count($my_products) > 0 ) {
                 foreach ($my_products as $value) {
-                    if ( isset($myplan[$value->productType]) ) {
-                        $plan_details = array(
-                                                        'product_id'     => $value->productId,
-                                                        'remaining_mins' => $value->validityDays
-                                                    );
-                        array_push($myplan[$value->productType], $plan_details);
-                    } else {
-                        $myplan[$value->productType][0] = array(
-                                                        'product_id'     => $value->productId,
-                                                        'remaining_mins' => $value->validityDays
-                                                    );
+                    if ( !isset($myplan[$value->productType]) ) {
+                        $myplan[$value->productType] = array(
+                                                            'product_id'     => $value->productId,
+                                                            'remaining_days' => $value->validityDays
+                                                        );
                     }
                 }
             }

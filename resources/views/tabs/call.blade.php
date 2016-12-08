@@ -2,7 +2,6 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 text-center">
             <div id="div_plan" class="feature">
-                <select id="plan_types" class="form-control" onchange="changeProduct();"></select>
                 <h3 id="plan"></h3>
                                  <img src="{{asset('images/check-circle.png')}}" class="img-responsive gallery-box wow fadeIn" data-wow-delay=".3s">
                 <p id="remaining_mins"></p>

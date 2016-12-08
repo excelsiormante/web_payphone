@@ -101,8 +101,7 @@ class AuthController extends Controller
         
         $data['link'] = url('verify/account/' . Crypt::encrypt($user->id));
         Mail::send('emails.registration', $data, function($mail) use ($data) {
-//            $mail->to($data['email_address'], $data['name'])->subject("Web Pay Phone Registration");
-            $mail->to('jsanchez@stratpoint.com', $data['name'])->subject("Web Pay Phone Registration");
+            $mail->to($data['email_address'], $data['name'])->subject("Web Pay Phone Registration");
         });
         
         return $user;

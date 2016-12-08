@@ -48,9 +48,6 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#call" id="call" class="navigate">Call</a>
-                    </li>
-                    <li>
                         <a href="#subscribe" id="subscribe" class="navigate">Subscribe</a>
                     </li>
                     <li>
@@ -273,7 +270,6 @@
     <script src="{{ asset('js/lib/wow.js') }}"></script>
     <script src="{{ asset('js/lib/sidebar.js') }}"></script>
     <script src="{{ asset('js/lib/countries.js') }}"></script>
-    <script src="{{ asset('js/call.js') }}"></script>
     <script src="{{ asset('js/mywallet.js') }}"></script>
     <script src="{{ asset('js/plans.js') }}"></script>
     <script src="{{ asset('js/myplan.js') }}"></script>

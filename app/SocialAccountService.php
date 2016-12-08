@@ -3,7 +3,6 @@
 namespace App;
 
 use Laravel\Socialite\Contracts\Provider;
-use Mail;
 
 class SocialAccountService
 {
@@ -33,11 +32,8 @@ class SocialAccountService
                 $user = User::create([
                     'email_address' => $providerUser->getEmail(),
                     'name' => $providerUser->getName(),
+                    'status' => 1
                 ]);
-                
-                Mail::send('emails.registration', $user, function($mail) use ($user) {
-                    $mail->to($user->email, $user->name)->subject("Web Pay Phone Registration");
-                });
             }
 
 
